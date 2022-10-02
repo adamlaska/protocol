@@ -54,7 +54,7 @@
         "@0x/contracts-test-utils": "^5.4.35",
         "@0x/sol-compiler": "^4.8.2",
         "@0x/ts-doc-gen": "^0.0.28",
-        "@types/isomorphic-fetch": "^0.0.35",
+        "@types/isomorphic-fetch": "^0.0.36",
         "@types/lodash": "4.14.104",
         "@types/mocha": "^5.2.7",
         "@types/prompts": "^2.0.9",
