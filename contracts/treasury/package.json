@@ -55,7 +55,7 @@
         "@0x/sol-compiler": "^4.8.2",
         "@0x/ts-doc-gen": "^0.0.28",
         "@types/isomorphic-fetch": "^0.0.35",
-        "@types/lodash": "4.14.104",
+        "@types/lodash": "4.14.185",
         "@types/mocha": "^5.2.7",
         "@types/prompts": "^2.0.9",
         "@typescript-eslint/eslint-plugin": "^5.38.0",
