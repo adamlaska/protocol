@@ -55,7 +55,7 @@
         "eslint": "^8.23.1",
         "eslint-config-prettier": "^8.5.0",
         "ethereum-types": "^3.7.1",
-        "mocha": "^6.2.0",
+        "mocha": "^9.2.2",
         "npm-run-all": "^4.1.2",
         "shx": "^0.2.2",
         "sinon": "^4.0.0",
