@@ -53,7 +53,7 @@
         "@0x/sol-coverage": "^4.0.46",
         "@0x/sol-profiler": "^4.1.36",
         "@0x/sol-trace": "^3.0.46",
-        "@0x/subproviders": "^7.0.0",
+        "@0x/subproviders": "^8.0.1",
         "@0x/types": "^3.3.6",
         "@0x/typescript-typings": "^5.3.1",
         "@0x/utils": "^7.0.0",
