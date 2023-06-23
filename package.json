@@ -67,10 +67,10 @@
         "coveralls": "^3.0.0",
         "ganache-cli": "6.12.2",
         "lcov-result-merger": "^3.0.0",
-        "lerna": "^3.0.0-beta.25",
+        "lerna": "^4.0.0",
         "npm-run-all": "^4.1.2",
         "prettier": "2.7.1",
-        "prettier-plugin-solidity": "^1.0.0-beta.24",
+        "prettier-plugin-solidity": "^1.0.0",
         "source-map-support": "^0.5.6",
         "typescript": "4.6.3",
         "wsrun": "^5.2.4"
