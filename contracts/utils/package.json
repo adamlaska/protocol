@@ -72,7 +72,7 @@
         "ethereumjs-util": "^7.0.10",
         "lodash": "^4.17.11",
         "make-promises-safe": "^1.1.0",
-        "mocha": "^6.2.0",
+        "mocha": "^8.3.0",
         "npm-run-all": "^4.1.2",
         "shx": "^0.2.2",
         "truffle": "^5.0.32",
