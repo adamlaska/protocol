@@ -1,32 +1,24 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 
 library LibMetaTransactionsRichErrors {
-    // solhint-disable func-name-mixedcase
-
-    function InvalidMetaTransactionsArrayLengthsError(uint256 mtxCount, uint256 signatureCount)
-        internal
-        pure
-        returns (bytes memory)
-    {
+    function InvalidMetaTransactionsArrayLengthsError(
+        uint256 mtxCount,
+        uint256 signatureCount
+    ) internal pure returns (bytes memory) {
         return
             abi.encodeWithSelector(
                 bytes4(keccak256("InvalidMetaTransactionsArrayLengthsError(uint256,uint256)")),
@@ -35,11 +27,10 @@ library LibMetaTransactionsRichErrors {
             );
     }
 
-    function MetaTransactionUnsupportedFunctionError(bytes32 mtxHash, bytes4 selector)
-        internal
-        pure
-        returns (bytes memory)
-    {
+    function MetaTransactionUnsupportedFunctionError(
+        bytes32 mtxHash,
+        bytes4 selector
+    ) internal pure returns (bytes memory) {
         return
             abi.encodeWithSelector(
                 bytes4(keccak256("MetaTransactionUnsupportedFunctionError(bytes32,bytes4)")),
@@ -120,11 +111,10 @@ library LibMetaTransactionsRichErrors {
             );
     }
 
-    function MetaTransactionAlreadyExecutedError(bytes32 mtxHash, uint256 executedBlockNumber)
-        internal
-        pure
-        returns (bytes memory)
-    {
+    function MetaTransactionAlreadyExecutedError(
+        bytes32 mtxHash,
+        uint256 executedBlockNumber
+    ) internal pure returns (bytes memory) {
         return
             abi.encodeWithSelector(
                 bytes4(keccak256("MetaTransactionAlreadyExecutedError(bytes32,uint256)")),

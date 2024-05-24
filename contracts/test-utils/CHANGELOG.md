@@ -5,6 +5,98 @@ Edit the package's CHANGELOG.json file only.
 
 CHANGELOG
 
+## v5.4.60 - _November 16, 2023_
+
+    * Dependencies updated
+
+## v5.4.59 - _August 29, 2023_
+
+    * Dependencies updated
+
+## v5.4.58 - _August 18, 2023_
+
+    * Dependencies updated
+
+## v5.4.57 - _August 9, 2023_
+
+    * Dependencies updated
+
+## v5.4.56 - _July 21, 2023_
+
+    * Dependencies updated
+
+## v5.4.55 - _July 19, 2023_
+
+    * Dependencies updated
+
+## v5.4.54 - _May 10, 2023_
+
+    * Dependencies updated
+
+## v5.4.53 - _May 1, 2023_
+
+    * Dependencies updated
+
+## v5.4.52 - _April 20, 2023_
+
+    * Dependencies updated
+
+## v5.4.51 - _April 17, 2023_
+
+    * Dependencies updated
+
+## v5.4.50 - _April 10, 2023_
+
+    * Dependencies updated
+
+## v5.4.49 - _March 10, 2023_
+
+    * Dependencies updated
+
+## v5.4.48 - _March 1, 2023_
+
+    * Dependencies updated
+
+## v5.4.47 - _February 1, 2023_
+
+    * Dependencies updated
+
+## v5.4.46 - _January 30, 2023_
+
+    * Dependencies updated
+
+## v5.4.45 - _January 23, 2023_
+
+    * Dependencies updated
+
+## v5.4.44 - _December 12, 2022_
+
+    * Dependencies updated
+
+## v5.4.43 - _November 23, 2022_
+
+    * Dependencies updated
+
+## v5.4.42 - _November 15, 2022_
+
+    * Dependencies updated
+
+## v5.4.41 - _November 5, 2022_
+
+    * Dependencies updated
+
+## v5.4.40 - _November 2, 2022_
+
+    * Dependencies updated
+
+## v5.4.39 - _October 24, 2022_
+
+    * Dependencies updated
+
+## v5.4.38 - _October 21, 2022_
+
+    * Dependencies updated
+
 ## v5.4.37 - _October 11, 2022_
 
     * Dependencies updated

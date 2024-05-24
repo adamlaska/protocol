@@ -1,26 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 import "../libs/LibSignature.sol";
 
 /// @dev Meta-transactions feature.
@@ -44,7 +39,7 @@ interface IMetaTransactionsFeature {
         // Amount of ETH to attach to the call.
         uint256 value;
         // ERC20 fee `signer` pays `sender`.
-        IERC20TokenV06 feeToken;
+        IERC20Token feeToken;
         // ERC20 fee amount.
         uint256 feeAmount;
     }
@@ -61,10 +56,10 @@ interface IMetaTransactionsFeature {
     /// @param mtx The meta-transaction.
     /// @param signature The signature by `mtx.signer`.
     /// @return returnResult The ABI-encoded result of the underlying call.
-    function executeMetaTransaction(MetaTransactionData calldata mtx, LibSignature.Signature calldata signature)
-        external
-        payable
-        returns (bytes memory returnResult);
+    function executeMetaTransaction(
+        MetaTransactionData calldata mtx,
+        LibSignature.Signature calldata signature
+    ) external payable returns (bytes memory returnResult);
 
     /// @dev Execute multiple meta-transactions.
     /// @param mtxs The meta-transactions.
@@ -78,10 +73,9 @@ interface IMetaTransactionsFeature {
     /// @dev Get the block at which a meta-transaction has been executed.
     /// @param mtx The meta-transaction.
     /// @return blockNumber The block height when the meta-transactioin was executed.
-    function getMetaTransactionExecutedBlock(MetaTransactionData calldata mtx)
-        external
-        view
-        returns (uint256 blockNumber);
+    function getMetaTransactionExecutedBlock(
+        MetaTransactionData calldata mtx
+    ) external view returns (uint256 blockNumber);
 
     /// @dev Get the block at which a meta-transaction hash has been executed.
     /// @param mtxHash The meta-transaction hash.

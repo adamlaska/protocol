@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-
 /*
-  Copyright 2020 ZeroEx Intl.
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
@@ -16,8 +15,8 @@
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/LibERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/v06/LibERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
 import "../IBridgeAdapter.sol";
 
@@ -25,27 +24,23 @@ import "../IBridgeAdapter.sol";
     UniswapV2
 */
 interface IGmxRouter {
-    // /// @dev Swaps an exact amount of input tokens for as many output tokens as possible, along the route determined by the path.
-    // ///      The first element of path is the input token, the last is the output token, and any intermediate elements represent
-    // ///      intermediate pairs to trade through (if, for example, a direct pair does not exist).
-    // /// @param _path An array of token addresses. path.length must be >= 2. Pools for each consecutive pair of addresses must exist and have liquidity.
-    // /// @param _amountIn The amount of input tokens to send.
-    // /// @param _minOut The minimum amount of output tokens that must be received for the transaction not to revert.
-    // /// @param _reciever Recipient of the output tokens.
-    function swap(
-        address[] calldata _path,
-        uint256 _amountIn,
-        uint256 _minOut,
-        address _receiver
-    ) external;
+    /// @dev Swaps an exact amount of input tokens for as many output tokens as possible, along the route determined by
+    /// the path. The first element of path is the input token, the last is the output token, and any intermediate
+    /// elements represent intermediate pairs to trade through (if, for example, a direct pair does not exist).
+    /// @param _path An array of token addresses. path.length must be >= 2. Pools for each consecutive pair of addresses
+    /// must exist and have liquidity.
+    /// @param _amountIn The amount of input tokens to send.
+    /// @param _minOut The minimum amount of output tokens that must be received for the transaction not to revert.
+    /// @param _receiver Recipient of the output tokens.
+    function swap(address[] calldata _path, uint256 _amountIn, uint256 _minOut, address _receiver) external;
 }
 
 contract MixinGMX {
-    using LibERC20TokenV06 for IERC20TokenV06;
+    using LibERC20TokenV06 for IERC20Token;
     using LibSafeMathV06 for uint256;
 
     function _tradeGMX(
-        IERC20TokenV06 buyToken,
+        IERC20Token buyToken,
         uint256 sellAmount,
         bytes memory bridgeData
     ) public returns (uint256 boughtAmount) {
@@ -54,7 +49,7 @@ contract MixinGMX {
         address vault;
         address[] memory _path;
         IGmxRouter router;
-        IERC20TokenV06[] memory path;
+        IERC20Token[] memory path;
 
         {
             //decode the bridge data

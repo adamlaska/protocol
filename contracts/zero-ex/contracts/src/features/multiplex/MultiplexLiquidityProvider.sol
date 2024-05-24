@@ -1,27 +1,22 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/LibERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
+import "@0x/contracts-erc20/src/v06/LibERC20TokenV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
 import "../../external/ILiquidityProviderSandbox.sol";
 import "../../fixins/FixinCommon.sol";
@@ -30,7 +25,7 @@ import "../../vendor/ILiquidityProvider.sol";
 import "../interfaces/IMultiplexFeature.sol";
 
 abstract contract MultiplexLiquidityProvider is FixinCommon, FixinTokenSpender {
-    using LibERC20TokenV06 for IERC20TokenV06;
+    using LibERC20TokenV06 for IERC20Token;
     using LibSafeMathV06 for uint256;
 
     // Same event fired by LiquidityProviderFeature
@@ -72,7 +67,7 @@ abstract contract MultiplexLiquidityProvider is FixinCommon, FixinTokenSpender {
             _transferERC20Tokens(params.inputToken, provider, sellAmount);
         } else {
             // Otherwise, transfer the input tokens from `msg.sender`.
-            _transferERC20TokensFrom(params.inputToken, msg.sender, provider, sellAmount);
+            _transferERC20TokensFrom(params.inputToken, params.payer, provider, sellAmount);
         }
         // Cache the recipient's balance of the output token.
         uint256 balanceBefore = params.outputToken.balanceOf(params.recipient);
@@ -130,8 +125,8 @@ abstract contract MultiplexLiquidityProvider is FixinCommon, FixinTokenSpender {
         IMultiplexFeature.MultiHopSellParams memory params,
         bytes memory wrappedCallData
     ) internal {
-        IERC20TokenV06 inputToken = IERC20TokenV06(params.tokens[state.hopIndex]);
-        IERC20TokenV06 outputToken = IERC20TokenV06(params.tokens[state.hopIndex + 1]);
+        IERC20Token inputToken = IERC20Token(params.tokens[state.hopIndex]);
+        IERC20Token outputToken = IERC20Token(params.tokens[state.hopIndex + 1]);
         // Decode the provider address and auxiliary data.
         (address provider, bytes memory auxiliaryData) = abi.decode(wrappedCallData, (address, bytes));
         // Cache the recipient's balance of the output token.

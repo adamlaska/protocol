@@ -6,6 +6,8 @@
 export * from '../generated-wrappers/affiliate_fee_transformer';
 export * from '../generated-wrappers/avalanche_bridge_adapter';
 export * from '../generated-wrappers/b_s_c_bridge_adapter';
+export * from '../generated-wrappers/base_bridge_adapter';
+export * from '../generated-wrappers/base_goerli_bridge_adapter';
 export * from '../generated-wrappers/batch_fill_native_orders_feature';
 export * from '../generated-wrappers/celo_bridge_adapter';
 export * from '../generated-wrappers/curve_liquidity_provider';
@@ -30,6 +32,7 @@ export * from '../generated-wrappers/initial_migration';
 export * from '../generated-wrappers/liquidity_provider_feature';
 export * from '../generated-wrappers/log_metadata_transformer';
 export * from '../generated-wrappers/meta_transactions_feature';
+export * from '../generated-wrappers/meta_transactions_feature_v2';
 export * from '../generated-wrappers/multiplex_feature';
 export * from '../generated-wrappers/native_orders_feature';
 export * from '../generated-wrappers/optimism_bridge_adapter';

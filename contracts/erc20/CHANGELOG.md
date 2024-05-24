@@ -5,6 +5,106 @@ Edit the package's CHANGELOG.json file only.
 
 CHANGELOG
 
+## v4.0.14 - _November 16, 2023_
+
+    * Dependencies updated
+
+## v4.0.13 - _August 29, 2023_
+
+    * Dependencies updated
+
+## v4.0.12 - _August 18, 2023_
+
+    * Dependencies updated
+
+## v4.0.11 - _August 9, 2023_
+
+    * Dependencies updated
+
+## v4.0.10 - _July 21, 2023_
+
+    * Dependencies updated
+
+## v4.0.9 - _July 19, 2023_
+
+    * Dependencies updated
+
+## v4.0.8 - _May 10, 2023_
+
+    * Dependencies updated
+
+## v4.0.7 - _May 1, 2023_
+
+    * Dependencies updated
+
+## v4.0.6 - _April 20, 2023_
+
+    * Dependencies updated
+
+## v4.0.5 - _April 17, 2023_
+
+    * Dependencies updated
+
+## v4.0.4 - _April 17, 2023_
+
+    * Dependencies updated
+
+## v4.0.3 - _April 10, 2023_
+
+    * Dependencies updated
+
+## v4.0.2 - _March 10, 2023_
+
+    * Dependencies updated
+
+## v4.0.1 - _March 1, 2023_
+
+    * Dependencies updated
+
+## v4.0.0 - _Invalid date_
+
+    * Migrated package to foundry
+
+## v3.3.57 - _February 1, 2023_
+
+    * Dependencies updated
+
+## v3.3.56 - _January 30, 2023_
+
+    * Dependencies updated
+
+## v3.3.55 - _January 23, 2023_
+
+    * Dependencies updated
+
+## v3.3.54 - _December 12, 2022_
+
+    * Dependencies updated
+
+## v3.3.53 - _November 23, 2022_
+
+    * Dependencies updated
+
+## v3.3.52 - _November 15, 2022_
+
+    * Dependencies updated
+
+## v3.3.51 - _November 5, 2022_
+
+    * Dependencies updated
+
+## v3.3.50 - _November 2, 2022_
+
+    * Dependencies updated
+
+## v3.3.49 - _October 24, 2022_
+
+    * Dependencies updated
+
+## v3.3.48 - _October 21, 2022_
+
+    * Dependencies updated
+
 ## v3.3.47 - _October 13, 2022_
 
     * Dependencies updated

@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
@@ -68,8 +63,8 @@ contract MetaTransactionsFeature is
 
     /// @dev Arguments for a `TransformERC20.transformERC20()` call.
     struct ExternalTransformERC20Args {
-        IERC20TokenV06 inputToken;
-        IERC20TokenV06 outputToken;
+        IERC20Token inputToken;
+        IERC20Token outputToken;
         uint256 inputTokenAmount;
         uint256 minOutputTokenAmount;
         ITransformERC20Feature.Transformation[] transformations;
@@ -113,9 +108,7 @@ contract MetaTransactionsFeature is
         require(initialBalance <= address(this).balance, "MetaTransactionsFeature/ETH_LEAK");
     }
 
-    constructor(address zeroExAddress) public FixinCommon() FixinEIP712(zeroExAddress) {
-        // solhint-disable-next-line no-empty-blocks
-    }
+    constructor(address zeroExAddress) public FixinCommon() FixinEIP712(zeroExAddress) {}
 
     /// @dev Initialize and register this feature.
     ///      Should be delegatecalled by `Migrate.migrate()`.
@@ -133,7 +126,10 @@ contract MetaTransactionsFeature is
     /// @param mtx The meta-transaction.
     /// @param signature The signature by `mtx.signer`.
     /// @return returnResult The ABI-encoded result of the underlying call.
-    function executeMetaTransaction(MetaTransactionData memory mtx, LibSignature.Signature memory signature)
+    function executeMetaTransaction(
+        MetaTransactionData memory mtx,
+        LibSignature.Signature memory signature
+    )
         public
         payable
         override
@@ -155,7 +151,10 @@ contract MetaTransactionsFeature is
     /// @param mtxs The meta-transactions.
     /// @param signatures The signature by each respective `mtx.signer`.
     /// @return returnResults The ABI-encoded results of the underlying calls.
-    function batchExecuteMetaTransactions(MetaTransactionData[] memory mtxs, LibSignature.Signature[] memory signatures)
+    function batchExecuteMetaTransactions(
+        MetaTransactionData[] memory mtxs,
+        LibSignature.Signature[] memory signatures
+    )
         public
         payable
         override
@@ -184,12 +183,9 @@ contract MetaTransactionsFeature is
     /// @dev Get the block at which a meta-transaction has been executed.
     /// @param mtx The meta-transaction.
     /// @return blockNumber The block height when the meta-transactioin was executed.
-    function getMetaTransactionExecutedBlock(MetaTransactionData memory mtx)
-        public
-        view
-        override
-        returns (uint256 blockNumber)
-    {
+    function getMetaTransactionExecutedBlock(
+        MetaTransactionData memory mtx
+    ) public view override returns (uint256 blockNumber) {
         return getMetaTransactionHashExecutedBlock(getMetaTransactionHash(mtx));
     }
 
@@ -461,11 +457,7 @@ contract MetaTransactionsFeature is
 
     /// @dev Make an arbitrary internal, meta-transaction call.
     ///      Warning: Do not let unadulterated `callData` into this function.
-    function _callSelf(
-        bytes32 hash,
-        bytes memory callData,
-        uint256 value
-    ) private returns (bytes memory returnResult) {
+    function _callSelf(bytes32 hash, bytes memory callData, uint256 value) private returns (bytes memory returnResult) {
         bool success;
         (success, returnResult) = address(this).call{value: value}(callData);
         if (!success) {

@@ -1,27 +1,22 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/LibERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
+import "@0x/contracts-erc20/src/v06/LibERC20TokenV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibBytesV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/errors/LibRichErrorsV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
@@ -129,8 +124,8 @@ contract TransformERC20Feature is IFeature, ITransformERC20Feature, FixinCommon,
     ///        in sequence.
     /// @return outputTokenAmount The amount of `outputToken` received by the sender.
     function transformERC20(
-        IERC20TokenV06 inputToken,
-        IERC20TokenV06 outputToken,
+        IERC20Token inputToken,
+        IERC20Token outputToken,
         uint256 inputTokenAmount,
         uint256 minOutputTokenAmount,
         Transformation[] memory transformations
@@ -153,14 +148,9 @@ contract TransformERC20Feature is IFeature, ITransformERC20Feature, FixinCommon,
     /// @dev Internal version of `transformERC20()`. Only callable from within.
     /// @param args A `TransformERC20Args` struct.
     /// @return outputTokenAmount The amount of `outputToken` received by the taker.
-    function _transformERC20(TransformERC20Args memory args)
-        public
-        payable
-        virtual
-        override
-        onlySelf
-        returns (uint256 outputTokenAmount)
-    {
+    function _transformERC20(
+        TransformERC20Args memory args
+    ) public payable virtual override onlySelf returns (uint256 outputTokenAmount) {
         return _transformERC20Private(args);
     }
 
@@ -311,7 +301,7 @@ contract TransformERC20Feature is IFeature, ITransformERC20Feature, FixinCommon,
     }
 
     function _executeOutputTokenTransfer(
-        IERC20TokenV06 outputToken,
+        IERC20Token outputToken,
         IFlashWallet wallet,
         address payable recipient
     ) private returns (uint256 transferAmount) {
@@ -321,7 +311,7 @@ contract TransformERC20Feature is IFeature, ITransformERC20Feature, FixinCommon,
         } else {
             bytes memory resultData = wallet.executeCall(
                 payable(address(outputToken)),
-                abi.encodeWithSelector(IERC20TokenV06.transfer.selector, recipient, transferAmount),
+                abi.encodeWithSelector(IERC20Token.transfer.selector, recipient, transferAmount),
                 0
             );
             if (resultData.length == 0) {

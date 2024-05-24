@@ -1,27 +1,22 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/IEtherTokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
+import "@0x/contracts-erc20/src/IEtherToken.sol";
 import "../migrations/LibMigrate.sol";
 import "../fixins/FixinCommon.sol";
 import "./interfaces/IFeature.sol";
@@ -34,7 +29,7 @@ contract UniswapFeature is IFeature, IUniswapFeature, FixinCommon {
     /// @dev Version of this feature.
     uint256 public immutable override FEATURE_VERSION = _encodeVersion(1, 1, 2);
     /// @dev WETH contract.
-    IEtherTokenV06 private immutable WETH;
+    IEtherToken private immutable WETH;
 
     // 0xFF + address of the UniswapV2Factory contract.
     uint256 private constant FF_UNISWAP_FACTORY = 0xFF5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f0000000000000000000000;
@@ -51,7 +46,7 @@ contract UniswapFeature is IFeature, IUniswapFeature, FixinCommon {
     // ETH pseudo-token address.
     uint256 private constant ETH_TOKEN_ADDRESS_32 = 0x000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee;
     // Maximum token quantity that can be swapped against the UniswapV2Pair contract.
-    uint256 private constant MAX_SWAP_AMOUNT = 2**112;
+    uint256 private constant MAX_SWAP_AMOUNT = 2 ** 112;
 
     // bytes4(keccak256("executeCall(address,bytes)"))
     uint256 private constant ALLOWANCE_TARGET_EXECUTE_CALL_SELECTOR_32 =
@@ -80,7 +75,7 @@ contract UniswapFeature is IFeature, IUniswapFeature, FixinCommon {
 
     /// @dev Construct this contract.
     /// @param weth The WETH contract.
-    constructor(IEtherTokenV06 weth) public {
+    constructor(IEtherToken weth) public {
         WETH = weth;
     }
 
@@ -99,7 +94,7 @@ contract UniswapFeature is IFeature, IUniswapFeature, FixinCommon {
     /// @param isSushi Use sushiswap if true.
     /// @return buyAmount Amount of `tokens[-1]` bought.
     function sellToUniswap(
-        IERC20TokenV06[] calldata tokens,
+        IERC20Token[] calldata tokens,
         uint256 sellAmount,
         uint256 minBuyAmount,
         bool isSushi
@@ -107,7 +102,7 @@ contract UniswapFeature is IFeature, IUniswapFeature, FixinCommon {
         require(tokens.length > 1, "UniswapFeature/InvalidTokensLength");
         {
             // Load immutables onto the stack.
-            IEtherTokenV06 weth = WETH;
+            IEtherToken weth = WETH;
 
             // Store some vars in memory to get around stack limits.
             assembly {

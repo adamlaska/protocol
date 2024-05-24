@@ -1,26 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IEtherTokenV06.sol";
+import "@0x/contracts-erc20/src/IEtherToken.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibMathV06.sol";
 import "../errors/LibNativeOrdersRichErrors.sol";
@@ -47,9 +42,9 @@ contract OtcOrdersFeature is IFeature, IOtcOrdersFeature, FixinCommon, FixinEIP7
     /// @dev ETH pseudo-token address.
     address private constant ETH_TOKEN_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     /// @dev The WETH token contract.
-    IEtherTokenV06 private immutable WETH;
+    IEtherToken private immutable WETH;
 
-    constructor(address zeroExAddress, IEtherTokenV06 weth) public FixinEIP712(zeroExAddress) {
+    constructor(address zeroExAddress, IEtherToken weth) public FixinEIP712(zeroExAddress) {
         WETH = weth;
     }
 
@@ -147,12 +142,10 @@ contract OtcOrdersFeature is IFeature, IOtcOrdersFeature, FixinCommon, FixinEIP7
     /// @param makerSignature The order signature from the maker.
     /// @return takerTokenFilledAmount How much taker token was filled.
     /// @return makerTokenFilledAmount How much maker token was filled.
-    function fillOtcOrderWithEth(LibNativeOrder.OtcOrder memory order, LibSignature.Signature memory makerSignature)
-        public
-        payable
-        override
-        returns (uint128 takerTokenFilledAmount, uint128 makerTokenFilledAmount)
-    {
+    function fillOtcOrderWithEth(
+        LibNativeOrder.OtcOrder memory order,
+        LibSignature.Signature memory makerSignature
+    ) public payable override returns (uint128 takerTokenFilledAmount, uint128 makerTokenFilledAmount) {
         if (order.takerToken == WETH) {
             // Wrap ETH
             WETH.deposit{value: msg.value}();
@@ -425,12 +418,9 @@ contract OtcOrdersFeature is IFeature, IOtcOrdersFeature, FixinCommon, FixinEIP7
     /// @dev Get the order info for an OTC order.
     /// @param order The OTC order.
     /// @return orderInfo Info about the order.
-    function getOtcOrderInfo(LibNativeOrder.OtcOrder memory order)
-        public
-        view
-        override
-        returns (LibNativeOrder.OtcOrderInfo memory orderInfo)
-    {
+    function getOtcOrderInfo(
+        LibNativeOrder.OtcOrder memory order
+    ) public view override returns (LibNativeOrder.OtcOrderInfo memory orderInfo) {
         // compute order hash.
         orderInfo.orderHash = getOtcOrderHash(order);
 
@@ -470,12 +460,10 @@ contract OtcOrdersFeature is IFeature, IOtcOrdersFeature, FixinCommon, FixinEIP7
     /// @param txOrigin The address.
     /// @param nonceBucket The nonce bucket index.
     /// @return lastNonce The last nonce value used.
-    function lastOtcTxOriginNonce(address txOrigin, uint64 nonceBucket)
-        public
-        view
-        override
-        returns (uint128 lastNonce)
-    {
+    function lastOtcTxOriginNonce(
+        address txOrigin,
+        uint64 nonceBucket
+    ) public view override returns (uint128 lastNonce) {
         LibOtcOrdersStorage.Storage storage stor = LibOtcOrdersStorage.getStorage();
         return stor.txOriginNonces[txOrigin][nonceBucket];
     }

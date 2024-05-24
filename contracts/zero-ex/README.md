@@ -20,7 +20,7 @@ We strongly recommend that the community help us make improvements and determine
 
 For proposals regarding the 0x protocol's smart contract architecture, message format, or additional functionality, go to the [0x Improvement Proposals (ZEIPs)](https://github.com/0xProject/ZEIPs) repository and follow the contribution guidelines provided therein.
 
-Please read our [contribution guidelines](../../CONTRIBUTING.md) before getting started.
+Please read our [contribution guidelines](../../.github/CONTRIBUTING.md) before getting started.
 
 ### Install Dependencies
 
@@ -66,4 +66,23 @@ yarn lint
 
 ```bash
 yarn test
+```
+
+### Run Integration Tests
+you will need to create a .env that the root of `/contracts/zero-ex` containing rpc's for all 7 chains the tests will be run on
+
+```sh
+ARBITRUM_RPC_URL=https://arb-mainnet........
+AVALANCHE_RPC_URL=https://avalanche-mainnet......
+BSC_RPC_URL=https://bsc-mainnet......
+FANTOM_RPC_URL=https://fantom-mainnet......
+MAINNET_RPC_URL=https://eth-mainnet......
+OPTIMISM_RPC_URL=https://opt-mainnet......
+POLYGON_RPC_URL=https://polygon-mainnet......
+```
+
+```bash
+git submodule update --init --recursive
+foundryup
+yarn test:integration
 ```

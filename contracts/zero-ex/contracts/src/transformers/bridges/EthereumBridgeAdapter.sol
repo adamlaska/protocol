@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2022 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
@@ -24,10 +19,9 @@ import "./AbstractBridgeAdapter.sol";
 import "./BridgeProtocols.sol";
 import "./mixins/MixinAaveV2.sol";
 import "./mixins/MixinBalancer.sol";
-import "./mixins/MixinBalancerV2.sol";
 import "./mixins/MixinBalancerV2Batch.sol";
-import "./mixins/MixinBancor.sol";
 import "./mixins/MixinBancorV3.sol";
+import "./mixins/MixinBarter.sol";
 import "./mixins/MixinCompound.sol";
 import "./mixins/MixinCurve.sol";
 import "./mixins/MixinCurveV2.sol";
@@ -35,11 +29,11 @@ import "./mixins/MixinCryptoCom.sol";
 import "./mixins/MixinDodo.sol";
 import "./mixins/MixinDodoV2.sol";
 import "./mixins/MixinKyberDmm.sol";
+import "./mixins/MixinKyberElastic.sol";
 import "./mixins/MixinLido.sol";
 import "./mixins/MixinMakerPSM.sol";
-import "./mixins/MixinMStable.sol";
+import "./mixins/MixinMaverickV1.sol";
 import "./mixins/MixinNerve.sol";
-import "./mixins/MixinShell.sol";
 import "./mixins/MixinSynthetix.sol";
 import "./mixins/MixinUniswap.sol";
 import "./mixins/MixinUniswapV2.sol";
@@ -50,10 +44,9 @@ contract EthereumBridgeAdapter is
     AbstractBridgeAdapter(1, "Ethereum"),
     MixinAaveV2,
     MixinBalancer,
-    MixinBalancerV2,
     MixinBalancerV2Batch,
-    MixinBancor,
     MixinBancorV3,
+    MixinBarter,
     MixinCompound,
     MixinCurve,
     MixinCurveV2,
@@ -61,31 +54,25 @@ contract EthereumBridgeAdapter is
     MixinDodo,
     MixinDodoV2,
     MixinKyberDmm,
+    MixinKyberElastic,
     MixinLido,
     MixinMakerPSM,
-    MixinMStable,
+    MixinMaverickV1,
     MixinNerve,
-    MixinShell,
     MixinSynthetix,
     MixinUniswap,
     MixinUniswapV2,
     MixinUniswapV3,
     MixinZeroExBridge
 {
-    constructor(IEtherTokenV06 weth)
-        public
-        MixinBancor(weth)
-        MixinBancorV3(weth)
-        MixinCompound(weth)
-        MixinCurve(weth)
-        MixinLido(weth)
-        MixinUniswap(weth)
-    {}
+    constructor(
+        IEtherToken weth
+    ) public MixinBancorV3(weth) MixinCompound(weth) MixinCurve(weth) MixinLido(weth) MixinUniswap(weth) {}
 
     function _trade(
         BridgeOrder memory order,
-        IERC20TokenV06 sellToken,
-        IERC20TokenV06 buyToken,
+        IERC20Token sellToken,
+        IERC20Token buyToken,
         uint256 sellAmount,
         bool dryRun
     ) internal override returns (uint256 boughtAmount, bool supportedSource) {
@@ -120,11 +107,6 @@ contract EthereumBridgeAdapter is
                 return (0, true);
             }
             boughtAmount = _tradeBalancer(sellToken, buyToken, sellAmount, order.bridgeData);
-        } else if (protocolId == BridgeProtocols.BALANCERV2) {
-            if (dryRun) {
-                return (0, true);
-            }
-            boughtAmount = _tradeBalancerV2(sellToken, buyToken, sellAmount, order.bridgeData);
         } else if (protocolId == BridgeProtocols.BALANCERV2BATCH) {
             if (dryRun) {
                 return (0, true);
@@ -135,16 +117,6 @@ contract EthereumBridgeAdapter is
                 return (0, true);
             }
             boughtAmount = _tradeMakerPsm(sellToken, buyToken, sellAmount, order.bridgeData);
-        } else if (protocolId == BridgeProtocols.MSTABLE) {
-            if (dryRun) {
-                return (0, true);
-            }
-            boughtAmount = _tradeMStable(sellToken, buyToken, sellAmount, order.bridgeData);
-        } else if (protocolId == BridgeProtocols.SHELL) {
-            if (dryRun) {
-                return (0, true);
-            }
-            boughtAmount = _tradeShell(sellToken, buyToken, sellAmount, order.bridgeData);
         } else if (protocolId == BridgeProtocols.DODO) {
             if (dryRun) {
                 return (0, true);
@@ -160,11 +132,6 @@ contract EthereumBridgeAdapter is
                 return (0, true);
             }
             boughtAmount = _tradeCryptoCom(buyToken, sellAmount, order.bridgeData);
-        } else if (protocolId == BridgeProtocols.BANCOR) {
-            if (dryRun) {
-                return (0, true);
-            }
-            boughtAmount = _tradeBancor(buyToken, sellAmount, order.bridgeData);
         } else if (protocolId == BridgeProtocols.NERVE) {
             if (dryRun) {
                 return (0, true);
@@ -175,6 +142,11 @@ contract EthereumBridgeAdapter is
                 return (0, true);
             }
             boughtAmount = _tradeKyberDmm(buyToken, sellAmount, order.bridgeData);
+        } else if (protocolId == BridgeProtocols.KYBERELASTIC) {
+            if (dryRun) {
+                return (0, true);
+            }
+            boughtAmount = _tradeKyberElastic(sellToken, sellAmount, order.bridgeData);
         } else if (protocolId == BridgeProtocols.LIDO) {
             if (dryRun) {
                 return (0, true);
@@ -200,6 +172,16 @@ contract EthereumBridgeAdapter is
                 return (0, true);
             }
             boughtAmount = _tradeSynthetix(sellAmount, order.bridgeData);
+        } else if (protocolId == BridgeProtocols.BARTER) {
+            if (dryRun) {
+                return (0, true);
+            }
+            boughtAmount = _tradeBarter(sellToken, sellAmount, order.bridgeData);
+        } else if (protocolId == BridgeProtocols.MAVERICKV1) {
+            if (dryRun) {
+                return (0, true);
+            }
+            boughtAmount = _tradeMaverickV1(sellToken, buyToken, sellAmount, order.bridgeData);
         } else if (protocolId == BridgeProtocols.UNKNOWN) {
             if (dryRun) {
                 return (0, true);

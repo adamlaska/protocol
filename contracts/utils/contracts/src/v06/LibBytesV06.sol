@@ -51,11 +51,7 @@ library LibBytesV06 {
     /// @param dest memory address to copy bytes to.
     /// @param source memory address to copy bytes from.
     /// @param length number of bytes to copy.
-    function memCopy(
-        uint256 dest,
-        uint256 source,
-        uint256 length
-    ) internal pure {
+    function memCopy(uint256 dest, uint256 source, uint256 length) internal pure {
         if (length < 32) {
             // Handle a partial word by reading destination and masking
             // off the bits we are interested in.
@@ -106,7 +102,6 @@ library LibBytesV06 {
                     // Copy whole words front to back
                     // Note: the first check is always true,
                     // this could have been a do-while loop.
-                    // solhint-disable-next-line no-empty-blocks
                     for {
 
                     } lt(source, sEnd) {
@@ -141,7 +136,6 @@ library LibBytesV06 {
                     // 2**255, so they can be safely re-interpreted as signed.
                     // Note: the first check is always true,
                     // this could have been a do-while loop.
-                    // solhint-disable-next-line no-empty-blocks
                     for {
 
                     } slt(dest, dEnd) {
@@ -164,11 +158,7 @@ library LibBytesV06 {
     /// @param from The starting index for the slice (inclusive).
     /// @param to The final index for the slice (exclusive).
     /// @return result The slice containing bytes at indices [from, to)
-    function slice(
-        bytes memory b,
-        uint256 from,
-        uint256 to
-    ) internal pure returns (bytes memory result) {
+    function slice(bytes memory b, uint256 from, uint256 to) internal pure returns (bytes memory result) {
         // Ensure that the from and to positions are valid positions for a slice within
         // the byte array that is being used.
         if (from > to) {
@@ -203,11 +193,7 @@ library LibBytesV06 {
     /// @param from The starting index for the slice (inclusive).
     /// @param to The final index for the slice (exclusive).
     /// @return result The slice containing bytes at indices [from, to)
-    function sliceDestructive(
-        bytes memory b,
-        uint256 from,
-        uint256 to
-    ) internal pure returns (bytes memory result) {
+    function sliceDestructive(bytes memory b, uint256 from, uint256 to) internal pure returns (bytes memory result) {
         // Ensure that the from and to positions are valid positions for a slice within
         // the byte array that is being used.
         if (from > to) {
@@ -307,11 +293,7 @@ library LibBytesV06 {
     /// @param b Byte array to insert address into.
     /// @param index Index in byte array of address.
     /// @param input Address to put into byte array.
-    function writeAddress(
-        bytes memory b,
-        uint256 index,
-        address input
-    ) internal pure {
+    function writeAddress(bytes memory b, uint256 index, address input) internal pure {
         if (b.length < index + 20) {
             LibRichErrorsV06.rrevert(
                 LibBytesRichErrorsV06.InvalidByteOperationError(
@@ -380,11 +362,7 @@ library LibBytesV06 {
     /// @param b Byte array to insert <input> into.
     /// @param index Index in byte array of <input>.
     /// @param input bytes32 to put into byte array.
-    function writeBytes32(
-        bytes memory b,
-        uint256 index,
-        bytes32 input
-    ) internal pure {
+    function writeBytes32(bytes memory b, uint256 index, bytes32 input) internal pure {
         if (b.length < index + 32) {
             LibRichErrorsV06.rrevert(
                 LibBytesRichErrorsV06.InvalidByteOperationError(
@@ -417,11 +395,7 @@ library LibBytesV06 {
     /// @param b Byte array to insert <input> into.
     /// @param index Index in byte array of <input>.
     /// @param input uint256 to put into byte array.
-    function writeUint256(
-        bytes memory b,
-        uint256 index,
-        uint256 input
-    ) internal pure {
+    function writeUint256(bytes memory b, uint256 index, uint256 input) internal pure {
         writeBytes32(b, index, bytes32(input));
     }
 

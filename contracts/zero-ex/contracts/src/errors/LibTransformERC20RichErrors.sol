@@ -1,27 +1,20 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 
 library LibTransformERC20RichErrors {
-    // solhint-disable func-name-mixedcase,separate-by-one-line-in-contract
-
     function InsufficientEthAttachedError(uint256 ethAttached, uint256 ethNeeded) internal pure returns (bytes memory) {
         return
             abi.encodeWithSelector(
@@ -45,11 +38,10 @@ library LibTransformERC20RichErrors {
             );
     }
 
-    function NegativeTransformERC20OutputError(address outputToken, uint256 outputTokenLostAmount)
-        internal
-        pure
-        returns (bytes memory)
-    {
+    function NegativeTransformERC20OutputError(
+        address outputToken,
+        uint256 outputTokenLostAmount
+    ) internal pure returns (bytes memory) {
         return
             abi.encodeWithSelector(
                 bytes4(keccak256("NegativeTransformERC20OutputError(address,uint256)")),
@@ -79,11 +71,10 @@ library LibTransformERC20RichErrors {
             abi.encodeWithSelector(bytes4(keccak256("OnlyCallableByDeployerError(address,address)")), caller, deployer);
     }
 
-    function InvalidExecutionContextError(address actualContext, address expectedContext)
-        internal
-        pure
-        returns (bytes memory)
-    {
+    function InvalidExecutionContextError(
+        address actualContext,
+        address expectedContext
+    ) internal pure returns (bytes memory) {
         return
             abi.encodeWithSelector(
                 bytes4(keccak256("InvalidExecutionContextError(address,address)")),
@@ -97,11 +88,10 @@ library LibTransformERC20RichErrors {
         INVALID_ARRAY_LENGTH
     }
 
-    function InvalidTransformDataError(InvalidTransformDataErrorCode errorCode, bytes memory transformData)
-        internal
-        pure
-        returns (bytes memory)
-    {
+    function InvalidTransformDataError(
+        InvalidTransformDataErrorCode errorCode,
+        bytes memory transformData
+    ) internal pure returns (bytes memory) {
         return
             abi.encodeWithSelector(
                 bytes4(keccak256("InvalidTransformDataError(uint8,bytes)")),
@@ -140,11 +130,10 @@ library LibTransformERC20RichErrors {
             );
     }
 
-    function InsufficientTakerTokenError(uint256 tokenBalance, uint256 tokensNeeded)
-        internal
-        pure
-        returns (bytes memory)
-    {
+    function InsufficientTakerTokenError(
+        uint256 tokenBalance,
+        uint256 tokensNeeded
+    ) internal pure returns (bytes memory) {
         return
             abi.encodeWithSelector(
                 bytes4(keccak256("InsufficientTakerTokenError(uint256,uint256)")),

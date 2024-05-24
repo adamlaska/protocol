@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
@@ -22,23 +17,22 @@ pragma experimental ABIEncoderV2;
 
 import "@0x/contracts-utils/contracts/src/v06/errors/LibRichErrorsV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/LibERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
+import "@0x/contracts-erc20/src/v06/LibERC20TokenV06.sol";
 import "../errors/LibTransformERC20RichErrors.sol";
 import "./Transformer.sol";
 import "./LibERC20Transformer.sol";
 
 /// @dev A transformer that transfers tokens to the taker.
 contract PayTakerTransformer is Transformer {
-    // solhint-disable no-empty-blocks
     using LibRichErrorsV06 for bytes;
     using LibSafeMathV06 for uint256;
-    using LibERC20Transformer for IERC20TokenV06;
+    using LibERC20Transformer for IERC20Token;
 
     /// @dev Transform data to ABI-encode and pass into `transform()`.
     struct TransformData {
         // The tokens to transfer to the taker.
-        IERC20TokenV06[] tokens;
+        IERC20Token[] tokens;
         // Amount of each token in `tokens` to transfer to the taker.
         // `uint(-1)` will transfer the entire balance.
         uint256[] amounts;
@@ -65,7 +59,7 @@ contract PayTakerTransformer is Transformer {
                 amount = data.tokens[i].getTokenBalanceOf(address(this));
             }
             if (amount != 0) {
-                data.tokens[i].transformerTransfer(context.recipient, amount);
+                data.tokens[i].unsafeTransformerTransfer(context.recipient, amount);
             }
         }
         return LibERC20Transformer.TRANSFORMER_SUCCESS;

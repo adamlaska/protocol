@@ -1,5 +1,242 @@
 [
     {
+        "version": "0.49.0",
+        "changes": [
+            {
+                "note": "Allowlist Sepolia in AbstractBridgeAdapter"
+            }
+        ],
+        "timestamp": 1700094997
+    },
+    {
+        "version": "0.48.0",
+        "changes": [
+            {
+                "note": "Add VelodromeV2 support on Base"
+            }
+        ],
+        "timestamp": 1693346928
+    },
+    {
+        "version": "0.47.0",
+        "changes": [
+            {
+                "note": "Add MaverickV1 support on Ethereum, BSC, and Base"
+            }
+        ],
+        "timestamp": 1692368658
+    },
+    {
+        "version": "0.46.0",
+        "changes": [
+            {
+                "note": "Add VelodromeV2 support on Optimism"
+            }
+        ],
+        "timestamp": 1691617396
+    },
+    {
+        "timestamp": 1689974915,
+        "version": "0.45.1",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "version": "0.45.0",
+        "changes": [
+            {
+                "note": "Remove Bancor V1 support"
+            },
+            {
+                "note": "Remove Shell and MStable support"
+            },
+            {
+                "note": "Add Base Mainnet and Goerli BridgeAdapters"
+            },
+            {
+                "note": "Add Uniswap V3 support on Avalanche and BSC"
+            }
+        ],
+        "timestamp": 1689791426
+    },
+    {
+        "version": "0.44.0",
+        "changes": [
+            {
+                "note": "Add Trader Joe V2 MixIn to Arbitrum"
+            }
+        ],
+        "timestamp": 1683749017
+    },
+    {
+        "version": "0.43.0",
+        "changes": [
+            {
+                "note": "Add Trader Joe V2.1 Router Support for MixIn"
+            }
+        ],
+        "timestamp": 1682976338
+    },
+    {
+        "timestamp": 1682334742,
+        "version": "0.42.1",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "version": "0.42.0",
+        "changes": [
+            {
+                "note": "Add Trader Joe V2 support on Avalanche"
+            }
+        ],
+        "timestamp": 1681969282
+    },
+    {
+        "version": "0.41.0",
+        "changes": [
+            {
+                "note": "Add Barter support on Ethereum"
+            }
+        ],
+        "timestamp": 1681756154
+    },
+    {
+        "version": "0.40.0",
+        "changes": [
+            {
+                "note": "Add Barter support on Ethereum"
+            }
+        ],
+        "timestamp": 1681697326
+    },
+    {
+        "version": "0.39.2",
+        "changes": [
+            {
+                "note": "Uprgade dependencies"
+            }
+        ],
+        "timestamp": 1681157139
+    },
+    {
+        "version": "0.39.1",
+        "changes": [
+            {
+                "note": "Add KyberElastic mixin for Optimism and BSC"
+            }
+        ],
+        "timestamp": 1678410794
+    },
+    {
+        "version": "0.39.0",
+        "changes": [
+            {
+                "note": "Add KyberElastic mixin for Ethereum, Polygon, Arbitrum, Avalanche"
+            },
+            {
+                "note": "Skip chain id validation in AbstractBridgeAdapter on testnets"
+            }
+        ],
+        "timestamp": 1677693479
+    },
+    {
+        "timestamp": 1675210931,
+        "version": "0.38.6",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "timestamp": 1675105183,
+        "version": "0.38.5",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "timestamp": 1674517560,
+        "version": "0.38.4",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "timestamp": 1670879498,
+        "version": "0.38.3",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "timestamp": 1669235113,
+        "version": "0.38.2",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "timestamp": 1668477029,
+        "version": "0.38.1",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "version": "0.38.0",
+        "changes": [
+            {
+                "note": "Rename Velodrome to Solidly and add SolidlyMixin support on Polygon"
+            }
+        ],
+        "timestamp": 1667607537
+    },
+    {
+        "timestamp": 1667427402,
+        "version": "0.37.10",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "timestamp": 1666645023,
+        "version": "0.37.9",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
+        "timestamp": 1666381417,
+        "version": "0.37.8",
+        "changes": [
+            {
+                "note": "Dependencies updated"
+            }
+        ]
+    },
+    {
         "timestamp": 1665670315,
         "version": "0.37.7",
         "changes": [

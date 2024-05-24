@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
@@ -27,14 +22,10 @@ import "./IFlashWallet.sol";
 
 /// @dev A contract that can execute arbitrary calls from its owner.
 contract FlashWallet is IFlashWallet {
-    // solhint-disable no-unused-vars,indent,no-empty-blocks
     using LibRichErrorsV06 for bytes;
 
-    // solhint-disable
     /// @dev Store the owner/deployer as an immutable to make this contract stateless.
     address public immutable override owner;
-
-    // solhint-enable
 
     constructor() public {
         // The deployer is the owner.
@@ -73,13 +64,10 @@ contract FlashWallet is IFlashWallet {
     /// @param target The call target.
     /// @param callData The call data.
     /// @return resultData The data returned by the call.
-    function executeDelegateCall(address payable target, bytes calldata callData)
-        external
-        payable
-        override
-        onlyOwner
-        returns (bytes memory resultData)
-    {
+    function executeDelegateCall(
+        address payable target,
+        bytes calldata callData
+    ) external payable override onlyOwner returns (bytes memory resultData) {
         bool success;
         (success, resultData) = target.delegatecall(callData);
         if (!success) {
@@ -89,11 +77,8 @@ contract FlashWallet is IFlashWallet {
         }
     }
 
-    // solhint-disable
     /// @dev Allows this contract to receive ether.
     receive() external payable override {}
-
-    // solhint-enable
 
     /// @dev Signal support for receiving ERC1155 tokens.
     /// @param interfaceID The interface ID, as per ERC-165 rules.

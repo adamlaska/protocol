@@ -1,26 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 import "../libs/LibSignature.sol";
 import "../libs/LibNativeOrder.sol";
 import "./INativeOrdersEvents.sol";
@@ -155,11 +150,7 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @param makerToken The maker token.
     /// @param takerToken The taker token.
     /// @param minValidSalt The new minimum valid salt.
-    function cancelPairLimitOrders(
-        IERC20TokenV06 makerToken,
-        IERC20TokenV06 takerToken,
-        uint256 minValidSalt
-    ) external;
+    function cancelPairLimitOrders(IERC20Token makerToken, IERC20Token takerToken, uint256 minValidSalt) external;
 
     /// @dev Cancel all limit orders for a given maker and pair with a salt less
     ///      than the value provided. The caller must be a signer registered to the maker.
@@ -171,8 +162,8 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @param minValidSalt The new minimum valid salt.
     function cancelPairLimitOrdersWithSigner(
         address maker,
-        IERC20TokenV06 makerToken,
-        IERC20TokenV06 takerToken,
+        IERC20Token makerToken,
+        IERC20Token takerToken,
         uint256 minValidSalt
     ) external;
 
@@ -184,8 +175,8 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @param takerTokens The taker tokens.
     /// @param minValidSalts The new minimum valid salts.
     function batchCancelPairLimitOrders(
-        IERC20TokenV06[] calldata makerTokens,
-        IERC20TokenV06[] calldata takerTokens,
+        IERC20Token[] calldata makerTokens,
+        IERC20Token[] calldata takerTokens,
         uint256[] calldata minValidSalts
     ) external;
 
@@ -199,8 +190,8 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @param minValidSalts The new minimum valid salts.
     function batchCancelPairLimitOrdersWithSigner(
         address maker,
-        IERC20TokenV06[] memory makerTokens,
-        IERC20TokenV06[] memory takerTokens,
+        IERC20Token[] memory makerTokens,
+        IERC20Token[] memory takerTokens,
         uint256[] memory minValidSalts
     ) external;
 
@@ -211,11 +202,7 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @param makerToken The maker token.
     /// @param takerToken The taker token.
     /// @param minValidSalt The new minimum valid salt.
-    function cancelPairRfqOrders(
-        IERC20TokenV06 makerToken,
-        IERC20TokenV06 takerToken,
-        uint256 minValidSalt
-    ) external;
+    function cancelPairRfqOrders(IERC20Token makerToken, IERC20Token takerToken, uint256 minValidSalt) external;
 
     /// @dev Cancel all RFQ orders for a given maker and pair with a salt less
     ///      than the value provided. The caller must be a signer registered to the maker.
@@ -227,8 +214,8 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @param minValidSalt The new minimum valid salt.
     function cancelPairRfqOrdersWithSigner(
         address maker,
-        IERC20TokenV06 makerToken,
-        IERC20TokenV06 takerToken,
+        IERC20Token makerToken,
+        IERC20Token takerToken,
         uint256 minValidSalt
     ) external;
 
@@ -240,8 +227,8 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @param takerTokens The taker tokens.
     /// @param minValidSalts The new minimum valid salts.
     function batchCancelPairRfqOrders(
-        IERC20TokenV06[] calldata makerTokens,
-        IERC20TokenV06[] calldata takerTokens,
+        IERC20Token[] calldata makerTokens,
+        IERC20Token[] calldata takerTokens,
         uint256[] calldata minValidSalts
     ) external;
 
@@ -255,26 +242,24 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @param minValidSalts The new minimum valid salts.
     function batchCancelPairRfqOrdersWithSigner(
         address maker,
-        IERC20TokenV06[] memory makerTokens,
-        IERC20TokenV06[] memory takerTokens,
+        IERC20Token[] memory makerTokens,
+        IERC20Token[] memory takerTokens,
         uint256[] memory minValidSalts
     ) external;
 
     /// @dev Get the order info for a limit order.
     /// @param order The limit order.
     /// @return orderInfo Info about the order.
-    function getLimitOrderInfo(LibNativeOrder.LimitOrder calldata order)
-        external
-        view
-        returns (LibNativeOrder.OrderInfo memory orderInfo);
+    function getLimitOrderInfo(
+        LibNativeOrder.LimitOrder calldata order
+    ) external view returns (LibNativeOrder.OrderInfo memory orderInfo);
 
     /// @dev Get the order info for an RFQ order.
     /// @param order The RFQ order.
     /// @return orderInfo Info about the order.
-    function getRfqOrderInfo(LibNativeOrder.RfqOrder calldata order)
-        external
-        view
-        returns (LibNativeOrder.OrderInfo memory orderInfo);
+    function getRfqOrderInfo(
+        LibNativeOrder.RfqOrder calldata order
+    ) external view returns (LibNativeOrder.OrderInfo memory orderInfo);
 
     /// @dev Get the canonical hash of a limit order.
     /// @param order The limit order.
@@ -319,7 +304,10 @@ interface INativeOrdersFeature is INativeOrdersEvents {
     /// @return actualFillableTakerTokenAmount How much of the order is fillable
     ///         based on maker funds, in taker tokens.
     /// @return isSignatureValid Whether the signature is valid.
-    function getRfqOrderRelevantState(LibNativeOrder.RfqOrder calldata order, LibSignature.Signature calldata signature)
+    function getRfqOrderRelevantState(
+        LibNativeOrder.RfqOrder calldata order,
+        LibSignature.Signature calldata signature
+    )
         external
         view
         returns (

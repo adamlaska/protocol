@@ -1,27 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/IEtherTokenV06.sol";
+import "@0x/contracts-erc20/src/IEtherToken.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibMathV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
 import "../../errors/LibNFTOrdersRichErrors.sol";
@@ -41,14 +35,14 @@ abstract contract NFTOrders is FixinCommon, FixinEIP712, FixinTokenSpender {
     /// @dev Native token pseudo-address.
     address internal constant NATIVE_TOKEN_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     /// @dev The WETH token contract.
-    IEtherTokenV06 internal immutable WETH;
+    IEtherToken internal immutable WETH;
 
     /// @dev The magic return value indicating the success of a `receiveZeroExFeeCallback`.
     bytes4 private constant FEE_CALLBACK_MAGIC_BYTES = IFeeRecipient.receiveZeroExFeeCallback.selector;
     /// @dev The magic return value indicating the success of a `zeroExTakerCallback`.
     bytes4 private constant TAKER_CALLBACK_MAGIC_BYTES = ITakerCallback.zeroExTakerCallback.selector;
 
-    constructor(address zeroExAddress, IEtherTokenV06 weth) public FixinEIP712(zeroExAddress) {
+    constructor(address zeroExAddress, IEtherToken weth) public FixinEIP712(zeroExAddress) {
         WETH = weth;
     }
 
@@ -439,9 +433,7 @@ abstract contract NFTOrders is FixinCommon, FixinEIP712, FixinTokenSpender {
     /// @dev Get the order info for an NFT order.
     /// @param order The NFT order.
     /// @return orderInfo Info about the order.
-    function _getOrderInfo(LibNFTOrder.NFTOrder memory order)
-        internal
-        view
-        virtual
-        returns (LibNFTOrder.OrderInfo memory orderInfo);
+    function _getOrderInfo(
+        LibNFTOrder.NFTOrder memory order
+    ) internal view virtual returns (LibNFTOrder.OrderInfo memory orderInfo);
 }

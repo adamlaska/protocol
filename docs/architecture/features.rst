@@ -18,7 +18,7 @@ Below is a catalog of Features.
     +----------------------------+----------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     | MetaTransactionsFeature    | Executes Meta-Transactions.                                                                        | `Code <https://github.com/0xProject/protocol/blob/development/contracts/zero-ex/contracts/src/features/MetaTransactionsFeature.sol>`__; `Usage <../advanced/mtx.html>`__                                    |
     +----------------------------+----------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    | NativeLiquidityFeature     | Functions for native 0x liquidity (see `Orders <../basics/orders.html>`_).                         | `Code <https://github.com/0xProject/protocol/blob/development/contracts/zero-ex/contracts/src/features/NativeOrdersFeature.sol>`__; `Usage <../basics/functions.html>`__                                    |
+    | NativeOrdersFeature     | Functions for native 0x orders (see `Orders <../basics/orders.html>`_).                         | `Code <https://github.com/0xProject/protocol/blob/development/contracts/zero-ex/contracts/src/features/NativeOrdersFeature.sol>`__; `Usage <../basics/functions.html>`__                                    |
     +----------------------------+----------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     | OwnableFeature             | An implementation of Ownable that is compatible with the delegate-call proxy pattern.              | `Code <https://github.com/0xProject/protocol/blob/development/contracts/zero-ex/contracts/src/features/OwnableFeature.sol>`__; `Usage <./architecture/proxy.html#ownership>`__                              |
     +----------------------------+----------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -41,8 +41,6 @@ The only requirement is that the Feature implements the interface in `IFeature <
 
     /// @dev Basic interface for a feature contract.
     interface IFeature {
-
-        // solhint-disable func-name-mixedcase
 
         /// @dev The name of this feature set.
         function FEATURE_NAME() external view returns (string memory name);
@@ -70,7 +68,7 @@ We use this checklist to review the safety of new Features.
     - [ ] No direct access to another feature’s storage bucket without strong justification.
     - [ ] No executing arbitrary calldata from the context of the Exchange Proxy.
     - [ ] No external calls to arbitrary contracts from within the Exchange Proxy.
-    - [ ] Features use unique StorageIds. 
+    - [ ] Features use unique StorageIds.
     - [ ] Document functions with execution contexts outside of the Exchange Proxy.
     - [ ] Document feature dependencies in checklist doc.
     - [ ] Document reentrant functions in checklist doc.

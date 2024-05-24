@@ -1,26 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibMathV06.sol";
 import "../../fixins/FixinEIP712.sol";
@@ -37,7 +32,7 @@ abstract contract NativeOrdersInfo is FixinEIP712, FixinTokenSpender {
     // @dev Params for `_getActualFillableTakerTokenAmount()`.
     struct GetActualFillableTakerTokenAmountParams {
         address maker;
-        IERC20TokenV06 makerToken;
+        IERC20Token makerToken;
         uint128 orderMakerAmount;
         uint128 orderTakerAmount;
         LibNativeOrder.OrderInfo orderInfo;
@@ -46,18 +41,14 @@ abstract contract NativeOrdersInfo is FixinEIP712, FixinTokenSpender {
     /// @dev Highest bit of a uint256, used to flag cancelled orders.
     uint256 private constant HIGH_BIT = 1 << 255;
 
-    constructor(address zeroExAddress) internal FixinEIP712(zeroExAddress) {
-        // solhint-disable no-empty-blocks
-    }
+    constructor(address zeroExAddress) internal FixinEIP712(zeroExAddress) {}
 
     /// @dev Get the order info for a limit order.
     /// @param order The limit order.
     /// @return orderInfo Info about the order.
-    function getLimitOrderInfo(LibNativeOrder.LimitOrder memory order)
-        public
-        view
-        returns (LibNativeOrder.OrderInfo memory orderInfo)
-    {
+    function getLimitOrderInfo(
+        LibNativeOrder.LimitOrder memory order
+    ) public view returns (LibNativeOrder.OrderInfo memory orderInfo) {
         // Recover maker and compute order hash.
         orderInfo.orderHash = getLimitOrderHash(order);
         uint256 minValidSalt = LibNativeOrdersStorage
@@ -71,11 +62,9 @@ abstract contract NativeOrdersInfo is FixinEIP712, FixinTokenSpender {
     /// @dev Get the order info for an RFQ order.
     /// @param order The RFQ order.
     /// @return orderInfo Info about the order.
-    function getRfqOrderInfo(LibNativeOrder.RfqOrder memory order)
-        public
-        view
-        returns (LibNativeOrder.OrderInfo memory orderInfo)
-    {
+    function getRfqOrderInfo(
+        LibNativeOrder.RfqOrder memory order
+    ) public view returns (LibNativeOrder.OrderInfo memory orderInfo) {
         // Recover maker and compute order hash.
         orderInfo.orderHash = getRfqOrderHash(order);
         uint256 minValidSalt = LibNativeOrdersStorage
@@ -147,7 +136,10 @@ abstract contract NativeOrdersInfo is FixinEIP712, FixinTokenSpender {
     /// @return actualFillableTakerTokenAmount How much of the order is fillable
     ///         based on maker funds, in taker tokens.
     /// @return isSignatureValid Whether the signature is valid.
-    function getRfqOrderRelevantState(LibNativeOrder.RfqOrder memory order, LibSignature.Signature memory signature)
+    function getRfqOrderRelevantState(
+        LibNativeOrder.RfqOrder memory order,
+        LibSignature.Signature memory signature
+    )
         public
         view
         returns (
@@ -295,11 +287,9 @@ abstract contract NativeOrdersInfo is FixinEIP712, FixinTokenSpender {
 
     /// @dev Calculate the actual fillable taker token amount of an order
     ///      based on maker allowance and balances.
-    function _getActualFillableTakerTokenAmount(GetActualFillableTakerTokenAmountParams memory params)
-        private
-        view
-        returns (uint128 actualFillableTakerTokenAmount)
-    {
+    function _getActualFillableTakerTokenAmount(
+        GetActualFillableTakerTokenAmountParams memory params
+    ) private view returns (uint128 actualFillableTakerTokenAmount) {
         if (params.orderMakerAmount == 0 || params.orderTakerAmount == 0) {
             // Empty order.
             return 0;

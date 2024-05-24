@@ -8,8 +8,7 @@ This repository is a monorepo including the 0x protocol smart contracts and nume
 
 [website-url]: https://0x.org
 
-[![CircleCI](https://circleci.com/gh/0xProject/protocol.svg?style=svg&circle-token=61bf7cd8c9b4e11b132089dfcffdd1be277d1e0c)](https://circleci.com/gh/0xProject/protocool)
-[![Coverage Status](https://coveralls.io/repos/github/0xProject/0x-monorepo/badge.svg?branch=development)](https://coveralls.io/github/0xProject/0x-monorepo?branch=development)
+[![Coverage Status](https://coveralls.io/repos/github/0xProject/protocol/badge.svg?branch=development)](https://coveralls.io/github/0xProject/protocol?branch=development)
 [![Discord](https://img.shields.io/badge/chat-discord.chat-yellow.svg?style=flat)](https://discordapp.com/invite/d3FTX3M)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -54,7 +53,7 @@ You can include those by prepending the `@0x/typescript-typings` package to your
 
 We strongly recommend that the community help us make improvements and determine the future direction of the protocol. To report bugs within this package, please create an issue in this repository.
 
-#### Read our [contribution guidelines](./CONTRIBUTING.md).
+#### Read our [contribution guidelines](.github/CONTRIBUTING.md).
 
 ### Install dependencies
 

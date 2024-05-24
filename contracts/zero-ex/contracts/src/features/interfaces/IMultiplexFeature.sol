@@ -1,26 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 
 interface IMultiplexFeature {
     // Identifies the type of subcall.
@@ -39,9 +34,9 @@ interface IMultiplexFeature {
     // Parameters for a batch sell.
     struct BatchSellParams {
         // The token being sold.
-        IERC20TokenV06 inputToken;
+        IERC20Token inputToken;
         // The token being bought.
-        IERC20TokenV06 outputToken;
+        IERC20Token outputToken;
         // The amount of `inputToken` to sell.
         uint256 sellAmount;
         // The nested calls to perform.
@@ -51,6 +46,8 @@ interface IMultiplexFeature {
         bool useSelfBalance;
         // The recipient of the bought output tokens.
         address recipient;
+        // The sender of the input tokens.
+        address payer;
     }
 
     // Represents a constituent call of a batch sell.
@@ -80,6 +77,8 @@ interface IMultiplexFeature {
         bool useSelfBalance;
         // The recipient of the bought output tokens.
         address recipient;
+        // The sender of the input tokens.
+        address payer;
     }
 
     // Represents a constituent call of a multi-hop sell.
@@ -121,7 +120,7 @@ interface IMultiplexFeature {
     ///        must be bought for this function to not revert.
     /// @return boughtAmount The amount of `outputToken` bought.
     function multiplexBatchSellEthForToken(
-        IERC20TokenV06 outputToken,
+        IERC20Token outputToken,
         BatchSellSubcall[] calldata calls,
         uint256 minBuyAmount
     ) external payable returns (uint256 boughtAmount);
@@ -135,7 +134,7 @@ interface IMultiplexFeature {
     ///        must be bought for this function to not revert.
     /// @return boughtAmount The amount of ETH bought.
     function multiplexBatchSellTokenForEth(
-        IERC20TokenV06 inputToken,
+        IERC20Token inputToken,
         BatchSellSubcall[] calldata calls,
         uint256 sellAmount,
         uint256 minBuyAmount
@@ -151,10 +150,21 @@ interface IMultiplexFeature {
     ///        that must be bought for this function to not revert.
     /// @return boughtAmount The amount of `outputToken` bought.
     function multiplexBatchSellTokenForToken(
-        IERC20TokenV06 inputToken,
-        IERC20TokenV06 outputToken,
+        IERC20Token inputToken,
+        IERC20Token outputToken,
         BatchSellSubcall[] calldata calls,
         uint256 sellAmount,
+        uint256 minBuyAmount
+    ) external returns (uint256 boughtAmount);
+
+    /// @dev Executes a multiplex BatchSell using the given
+    ///      parameters. Internal only.
+    /// @param params The parameters for the BatchSell.
+    /// @param minBuyAmount The minimum amount of `params.outputToken`
+    ///        that must be bought for this function to not revert.
+    /// @return boughtAmount The amount of `params.outputToken` bought.
+    function _multiplexBatchSell(
+        BatchSellParams memory params,
         uint256 minBuyAmount
     ) external returns (uint256 boughtAmount);
 
@@ -207,6 +217,17 @@ interface IMultiplexFeature {
         address[] calldata tokens,
         MultiHopSellSubcall[] calldata calls,
         uint256 sellAmount,
+        uint256 minBuyAmount
+    ) external returns (uint256 boughtAmount);
+
+    /// @dev Executes a multiplex MultiHopSell using the given
+    ///      parameters. Internal only.
+    /// @param params The parameters for the MultiHopSell.
+    /// @param minBuyAmount The minimum amount of the output token
+    ///        that must be bought for this function to not revert.
+    /// @return boughtAmount The amount of the output token bought.
+    function _multiplexMultiHopSell(
+        MultiHopSellParams memory params,
         uint256 minBuyAmount
     ) external returns (uint256 boughtAmount);
 }

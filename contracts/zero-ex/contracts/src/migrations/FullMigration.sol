@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
@@ -30,8 +25,6 @@ import "./InitialMigration.sol";
 
 /// @dev A contract for deploying and configuring the full ZeroEx contract.
 contract FullMigration {
-    // solhint-disable no-empty-blocks,indent
-
     /// @dev Features to add the the proxy contract.
     struct Features {
         SimpleFunctionRegistryFeature registry;
@@ -116,11 +109,7 @@ contract FullMigration {
     /// @param zeroEx The bootstrapped ZeroEx contract.
     /// @param features Features to add to the proxy.
     /// @param migrateOpts Parameters needed to initialize features.
-    function _addFeatures(
-        ZeroEx zeroEx,
-        Features memory features,
-        MigrateOpts memory migrateOpts
-    ) private {
+    function _addFeatures(ZeroEx zeroEx, Features memory features, MigrateOpts memory migrateOpts) private {
         IOwnableFeature ownable = IOwnableFeature(address(zeroEx));
         // TransformERC20Feature
         {

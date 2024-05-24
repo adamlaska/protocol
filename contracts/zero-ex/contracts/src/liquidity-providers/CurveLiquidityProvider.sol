@@ -1,34 +1,29 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
 import "@0x/contracts-utils/contracts/src/v06/errors/LibRichErrorsV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/LibERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/v06/LibERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
 import "../transformers/LibERC20Transformer.sol";
 import "../vendor/ILiquidityProvider.sol";
 
 contract CurveLiquidityProvider is ILiquidityProvider {
-    using LibERC20TokenV06 for IERC20TokenV06;
+    using LibERC20TokenV06 for IERC20Token;
     using LibSafeMathV06 for uint256;
     using LibRichErrorsV06 for bytes;
 
@@ -53,8 +48,8 @@ contract CurveLiquidityProvider is ILiquidityProvider {
     /// @param auxiliaryData Arbitrary auxiliary data supplied to the contract.
     /// @return boughtAmount The amount of `outputToken` bought.
     function sellTokenForToken(
-        IERC20TokenV06 inputToken,
-        IERC20TokenV06 outputToken,
+        IERC20Token inputToken,
+        IERC20Token outputToken,
         address recipient,
         uint256 minBuyAmount,
         bytes calldata auxiliaryData
@@ -84,7 +79,7 @@ contract CurveLiquidityProvider is ILiquidityProvider {
     /// @param auxiliaryData Arbitrary auxiliary data supplied to the contract.
     /// @return boughtAmount The amount of `outputToken` bought.
     function sellEthForToken(
-        IERC20TokenV06 outputToken,
+        IERC20Token outputToken,
         address recipient,
         uint256 minBuyAmount,
         bytes calldata auxiliaryData
@@ -110,7 +105,7 @@ contract CurveLiquidityProvider is ILiquidityProvider {
     /// @param auxiliaryData Arbitrary auxiliary data supplied to the contract.
     /// @return boughtAmount The amount of ETH bought.
     function sellTokenForEth(
-        IERC20TokenV06 inputToken,
+        IERC20Token inputToken,
         address payable recipient,
         uint256 minBuyAmount,
         bytes calldata auxiliaryData
@@ -131,8 +126,8 @@ contract CurveLiquidityProvider is ILiquidityProvider {
     /// @dev Quotes the amount of `outputToken` that would be obtained by
     ///      selling `sellAmount` of `inputToken`.
     function getSellQuote(
-        IERC20TokenV06, /* inputToken */
-        IERC20TokenV06, /* outputToken */
+        IERC20Token /* inputToken */,
+        IERC20Token /* outputToken */,
         uint256 /* sellAmount */
     ) external view override returns (uint256) {
         revert("CurveLiquidityProvider/NOT_IMPLEMENTED");
@@ -141,8 +136,8 @@ contract CurveLiquidityProvider is ILiquidityProvider {
     /// @dev Perform the swap against the curve pool. Handles any combination of
     ///      tokens
     function _executeSwap(
-        IERC20TokenV06 inputToken,
-        IERC20TokenV06 outputToken,
+        IERC20Token inputToken,
+        IERC20Token outputToken,
         uint256 minBuyAmount,
         CurveData memory data,
         address recipient // Only used to log event.

@@ -1,7 +1,6 @@
-import { SupportedProvider } from '@0x/subproviders';
 import { SimpleContractArtifact } from '@0x/types';
 import { NULL_ADDRESS } from '@0x/utils';
-import { TxData } from 'ethereum-types';
+import { TxData, SupportedProvider } from 'ethereum-types';
 import * as _ from 'lodash';
 
 import { artifacts } from './artifacts';
@@ -18,8 +17,6 @@ import {
     TransformERC20FeatureContract,
     ZeroExContract,
 } from './wrappers';
-
-// tslint:disable: completed-docs
 
 /**
  * Addresses of minimum features for a deployment of the Exchange Proxy.

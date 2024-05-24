@@ -7,7 +7,10 @@ import { ContractArtifact } from 'ethereum-types';
 
 import * as AbstractBridgeAdapter from '../test/generated-artifacts/AbstractBridgeAdapter.json';
 import * as AffiliateFeeTransformer from '../test/generated-artifacts/AffiliateFeeTransformer.json';
+import * as ArbitrumBridgeAdapter from '../test/generated-artifacts/ArbitrumBridgeAdapter.json';
 import * as AvalancheBridgeAdapter from '../test/generated-artifacts/AvalancheBridgeAdapter.json';
+import * as BaseBridgeAdapter from '../test/generated-artifacts/BaseBridgeAdapter.json';
+import * as BaseGoerliBridgeAdapter from '../test/generated-artifacts/BaseGoerliBridgeAdapter.json';
 import * as BatchFillNativeOrdersFeature from '../test/generated-artifacts/BatchFillNativeOrdersFeature.json';
 import * as BootstrapFeature from '../test/generated-artifacts/BootstrapFeature.json';
 import * as BridgeProtocols from '../test/generated-artifacts/BridgeProtocols.json';
@@ -50,6 +53,7 @@ import * as ILiquidityProvider from '../test/generated-artifacts/ILiquidityProvi
 import * as ILiquidityProviderFeature from '../test/generated-artifacts/ILiquidityProviderFeature.json';
 import * as ILiquidityProviderSandbox from '../test/generated-artifacts/ILiquidityProviderSandbox.json';
 import * as IMetaTransactionsFeature from '../test/generated-artifacts/IMetaTransactionsFeature.json';
+import * as IMetaTransactionsFeatureV2 from '../test/generated-artifacts/IMetaTransactionsFeatureV2.json';
 import * as IMooniswapPool from '../test/generated-artifacts/IMooniswapPool.json';
 import * as IMultiplexFeature from '../test/generated-artifacts/IMultiplexFeature.json';
 import * as INativeOrdersEvents from '../test/generated-artifacts/INativeOrdersEvents.json';
@@ -103,11 +107,10 @@ import * as LiquidityProviderFeature from '../test/generated-artifacts/Liquidity
 import * as LiquidityProviderSandbox from '../test/generated-artifacts/LiquidityProviderSandbox.json';
 import * as LogMetadataTransformer from '../test/generated-artifacts/LogMetadataTransformer.json';
 import * as MetaTransactionsFeature from '../test/generated-artifacts/MetaTransactionsFeature.json';
+import * as MetaTransactionsFeatureV2 from '../test/generated-artifacts/MetaTransactionsFeatureV2.json';
 import * as MixinAaveV2 from '../test/generated-artifacts/MixinAaveV2.json';
 import * as MixinBalancer from '../test/generated-artifacts/MixinBalancer.json';
-import * as MixinBalancerV2 from '../test/generated-artifacts/MixinBalancerV2.json';
 import * as MixinBalancerV2Batch from '../test/generated-artifacts/MixinBalancerV2Batch.json';
-import * as MixinBancor from '../test/generated-artifacts/MixinBancor.json';
 import * as MixinBancorV3 from '../test/generated-artifacts/MixinBancorV3.json';
 import * as MixinCompound from '../test/generated-artifacts/MixinCompound.json';
 import * as MixinCryptoCom from '../test/generated-artifacts/MixinCryptoCom.json';
@@ -120,15 +123,13 @@ import * as MixinKyberDmm from '../test/generated-artifacts/MixinKyberDmm.json';
 import * as MixinLido from '../test/generated-artifacts/MixinLido.json';
 import * as MixinMakerPSM from '../test/generated-artifacts/MixinMakerPSM.json';
 import * as MixinMooniswap from '../test/generated-artifacts/MixinMooniswap.json';
-import * as MixinMStable from '../test/generated-artifacts/MixinMStable.json';
 import * as MixinNerve from '../test/generated-artifacts/MixinNerve.json';
 import * as MixinPlatypus from '../test/generated-artifacts/MixinPlatypus.json';
-import * as MixinShell from '../test/generated-artifacts/MixinShell.json';
+import * as MixinSolidly from '../test/generated-artifacts/MixinSolidly.json';
 import * as MixinSynthetix from '../test/generated-artifacts/MixinSynthetix.json';
 import * as MixinUniswap from '../test/generated-artifacts/MixinUniswap.json';
 import * as MixinUniswapV2 from '../test/generated-artifacts/MixinUniswapV2.json';
 import * as MixinUniswapV3 from '../test/generated-artifacts/MixinUniswapV3.json';
-import * as MixinVelodrome from '../test/generated-artifacts/MixinVelodrome.json';
 import * as MixinZeroExBridge from '../test/generated-artifacts/MixinZeroExBridge.json';
 import * as MooniswapLiquidityProvider from '../test/generated-artifacts/MooniswapLiquidityProvider.json';
 import * as MultiplexFeature from '../test/generated-artifacts/MultiplexFeature.json';
@@ -153,8 +154,6 @@ import * as PermissionlessTransformerDeployer from '../test/generated-artifacts/
 import * as PolygonBridgeAdapter from '../test/generated-artifacts/PolygonBridgeAdapter.json';
 import * as PositiveSlippageFeeTransformer from '../test/generated-artifacts/PositiveSlippageFeeTransformer.json';
 import * as SimpleFunctionRegistryFeature from '../test/generated-artifacts/SimpleFunctionRegistryFeature.json';
-import * as TestBridge from '../test/generated-artifacts/TestBridge.json';
-import * as TestCallTarget from '../test/generated-artifacts/TestCallTarget.json';
 import * as TestCurve from '../test/generated-artifacts/TestCurve.json';
 import * as TestDelegateCaller from '../test/generated-artifacts/TestDelegateCaller.json';
 import * as TestFeeCollectorController from '../test/generated-artifacts/TestFeeCollectorController.json';
@@ -200,7 +199,6 @@ import * as TestUniswapV3Feature from '../test/generated-artifacts/TestUniswapV3
 import * as TestUniswapV3Pool from '../test/generated-artifacts/TestUniswapV3Pool.json';
 import * as TestWeth from '../test/generated-artifacts/TestWeth.json';
 import * as TestWethTransformerHost from '../test/generated-artifacts/TestWethTransformerHost.json';
-import * as TestZeroExFeature from '../test/generated-artifacts/TestZeroExFeature.json';
 import * as Transformer from '../test/generated-artifacts/Transformer.json';
 import * as TransformERC20Feature from '../test/generated-artifacts/TransformERC20Feature.json';
 import * as TransformerDeployer from '../test/generated-artifacts/TransformerDeployer.json';
@@ -239,6 +237,7 @@ export const artifacts = {
     FundRecoveryFeature: FundRecoveryFeature as ContractArtifact,
     LiquidityProviderFeature: LiquidityProviderFeature as ContractArtifact,
     MetaTransactionsFeature: MetaTransactionsFeature as ContractArtifact,
+    MetaTransactionsFeatureV2: MetaTransactionsFeatureV2 as ContractArtifact,
     NativeOrdersFeature: NativeOrdersFeature as ContractArtifact,
     OtcOrdersFeature: OtcOrdersFeature as ContractArtifact,
     OwnableFeature: OwnableFeature as ContractArtifact,
@@ -256,6 +255,7 @@ export const artifacts = {
     IFundRecoveryFeature: IFundRecoveryFeature as ContractArtifact,
     ILiquidityProviderFeature: ILiquidityProviderFeature as ContractArtifact,
     IMetaTransactionsFeature: IMetaTransactionsFeature as ContractArtifact,
+    IMetaTransactionsFeatureV2: IMetaTransactionsFeatureV2 as ContractArtifact,
     IMultiplexFeature: IMultiplexFeature as ContractArtifact,
     INativeOrdersEvents: INativeOrdersEvents as ContractArtifact,
     INativeOrdersFeature: INativeOrdersFeature as ContractArtifact,
@@ -318,8 +318,11 @@ export const artifacts = {
     Transformer: Transformer as ContractArtifact,
     WethTransformer: WethTransformer as ContractArtifact,
     AbstractBridgeAdapter: AbstractBridgeAdapter as ContractArtifact,
+    ArbitrumBridgeAdapter: ArbitrumBridgeAdapter as ContractArtifact,
     AvalancheBridgeAdapter: AvalancheBridgeAdapter as ContractArtifact,
     BSCBridgeAdapter: BSCBridgeAdapter as ContractArtifact,
+    BaseBridgeAdapter: BaseBridgeAdapter as ContractArtifact,
+    BaseGoerliBridgeAdapter: BaseGoerliBridgeAdapter as ContractArtifact,
     BridgeProtocols: BridgeProtocols as ContractArtifact,
     CeloBridgeAdapter: CeloBridgeAdapter as ContractArtifact,
     EthereumBridgeAdapter: EthereumBridgeAdapter as ContractArtifact,
@@ -329,9 +332,7 @@ export const artifacts = {
     PolygonBridgeAdapter: PolygonBridgeAdapter as ContractArtifact,
     MixinAaveV2: MixinAaveV2 as ContractArtifact,
     MixinBalancer: MixinBalancer as ContractArtifact,
-    MixinBalancerV2: MixinBalancerV2 as ContractArtifact,
     MixinBalancerV2Batch: MixinBalancerV2Batch as ContractArtifact,
-    MixinBancor: MixinBancor as ContractArtifact,
     MixinBancorV3: MixinBancorV3 as ContractArtifact,
     MixinCompound: MixinCompound as ContractArtifact,
     MixinCryptoCom: MixinCryptoCom as ContractArtifact,
@@ -342,17 +343,15 @@ export const artifacts = {
     MixinGMX: MixinGMX as ContractArtifact,
     MixinKyberDmm: MixinKyberDmm as ContractArtifact,
     MixinLido: MixinLido as ContractArtifact,
-    MixinMStable: MixinMStable as ContractArtifact,
     MixinMakerPSM: MixinMakerPSM as ContractArtifact,
     MixinMooniswap: MixinMooniswap as ContractArtifact,
     MixinNerve: MixinNerve as ContractArtifact,
     MixinPlatypus: MixinPlatypus as ContractArtifact,
-    MixinShell: MixinShell as ContractArtifact,
+    MixinSolidly: MixinSolidly as ContractArtifact,
     MixinSynthetix: MixinSynthetix as ContractArtifact,
     MixinUniswap: MixinUniswap as ContractArtifact,
     MixinUniswapV2: MixinUniswapV2 as ContractArtifact,
     MixinUniswapV3: MixinUniswapV3 as ContractArtifact,
-    MixinVelodrome: MixinVelodrome as ContractArtifact,
     MixinZeroExBridge: MixinZeroExBridge as ContractArtifact,
     IERC1155Token: IERC1155Token as ContractArtifact,
     IERC721Token: IERC721Token as ContractArtifact,
@@ -366,8 +365,6 @@ export const artifacts = {
     IERC20Bridge: IERC20Bridge as ContractArtifact,
     IStaking: IStaking as ContractArtifact,
     ITestSimpleFunctionRegistryFeature: ITestSimpleFunctionRegistryFeature as ContractArtifact,
-    TestBridge: TestBridge as ContractArtifact,
-    TestCallTarget: TestCallTarget as ContractArtifact,
     TestDelegateCaller: TestDelegateCaller as ContractArtifact,
     TestFeeCollectorController: TestFeeCollectorController as ContractArtifact,
     TestFeeRecipient: TestFeeRecipient as ContractArtifact,
@@ -402,7 +399,6 @@ export const artifacts = {
     TestTransformerHost: TestTransformerHost as ContractArtifact,
     TestUniswapV3Feature: TestUniswapV3Feature as ContractArtifact,
     TestWethTransformerHost: TestWethTransformerHost as ContractArtifact,
-    TestZeroExFeature: TestZeroExFeature as ContractArtifact,
     TestCurve: TestCurve as ContractArtifact,
     TestLiquidityProvider: TestLiquidityProvider as ContractArtifact,
     TestMooniswap: TestMooniswap as ContractArtifact,

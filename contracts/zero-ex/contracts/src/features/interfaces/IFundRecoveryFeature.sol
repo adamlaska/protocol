@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-  Copyright 2020 ZeroEx Intl.
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
@@ -15,7 +15,7 @@
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 
 /// @dev Exchange Proxy Recovery Functions
 interface IFundRecoveryFeature {
@@ -24,9 +24,5 @@ interface IFundRecoveryFeature {
     /// @param erc20 ERC20 Token Address.
     /// @param amountOut Amount of tokens to withdraw.
     /// @param recipientWallet Recipient wallet address.
-    function transferTrappedTokensTo(
-        IERC20TokenV06 erc20,
-        uint256 amountOut,
-        address payable recipientWallet
-    ) external;
+    function transferTrappedTokensTo(IERC20Token erc20, uint256 amountOut, address payable recipientWallet) external;
 }

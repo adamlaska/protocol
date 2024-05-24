@@ -1,27 +1,22 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/IEtherTokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
+import "@0x/contracts-erc20/src/IEtherToken.sol";
 import "@0x/contracts-utils/contracts/src/v06/errors/LibRichErrorsV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibMathV06.sol";
@@ -56,9 +51,9 @@ abstract contract NativeOrdersSettlement is
         // Recipient of the maker tokens.
         address recipient;
         // Maker token.
-        IERC20TokenV06 makerToken;
+        IERC20Token makerToken;
         // Taker token.
-        IERC20TokenV06 takerToken;
+        IERC20Token takerToken;
         // Maker token amount.
         uint128 makerAmount;
         // Taker token amount.
@@ -110,7 +105,7 @@ abstract contract NativeOrdersSettlement is
 
     constructor(
         address zeroExAddress,
-        IEtherTokenV06 weth,
+        IEtherToken weth,
         IStaking staking,
         FeeCollectorController feeCollectorController,
         uint32 protocolFeeMultiplier
@@ -118,9 +113,7 @@ abstract contract NativeOrdersSettlement is
         public
         NativeOrdersCancellation(zeroExAddress)
         NativeOrdersProtocolFees(weth, staking, feeCollectorController, protocolFeeMultiplier)
-    {
-        // solhint-disable no-empty-blocks
-    }
+    {}
 
     /// @dev Fill a limit order. The taker and sender will be the caller.
     /// @param order The limit order. ETH protocol fees can be
@@ -315,10 +308,9 @@ abstract contract NativeOrdersSettlement is
     /// @dev Fill a limit order. Private variant. Does not refund protocol fees.
     /// @param params Function params.
     /// @return results Results of the fill.
-    function _fillLimitOrderPrivate(FillLimitOrderPrivateParams memory params)
-        private
-        returns (FillNativeOrderResults memory results)
-    {
+    function _fillLimitOrderPrivate(
+        FillLimitOrderPrivateParams memory params
+    ) private returns (FillNativeOrderResults memory results) {
         LibNativeOrder.OrderInfo memory orderInfo = getLimitOrderInfo(params.order);
 
         // Must be fillable.
@@ -360,8 +352,8 @@ abstract contract NativeOrdersSettlement is
                 maker: params.order.maker,
                 payer: params.taker,
                 recipient: params.taker,
-                makerToken: IERC20TokenV06(params.order.makerToken),
-                takerToken: IERC20TokenV06(params.order.takerToken),
+                makerToken: IERC20Token(params.order.makerToken),
+                takerToken: IERC20Token(params.order.takerToken),
                 makerAmount: params.order.makerAmount,
                 takerAmount: params.order.takerAmount,
                 takerTokenFillAmount: params.takerTokenFillAmount,
@@ -404,10 +396,9 @@ abstract contract NativeOrdersSettlement is
     /// @dev Fill an RFQ order. Private variant.
     /// @param params Function params.
     /// @return results Results of the fill.
-    function _fillRfqOrderPrivate(FillRfqOrderPrivateParams memory params)
-        private
-        returns (FillNativeOrderResults memory results)
-    {
+    function _fillRfqOrderPrivate(
+        FillRfqOrderPrivateParams memory params
+    ) private returns (FillNativeOrderResults memory results) {
         LibNativeOrder.OrderInfo memory orderInfo = getRfqOrderInfo(params.order);
 
         // Must be fillable.
@@ -450,8 +441,8 @@ abstract contract NativeOrdersSettlement is
                 maker: params.order.maker,
                 payer: params.useSelfBalance ? address(this) : params.taker,
                 recipient: params.recipient,
-                makerToken: IERC20TokenV06(params.order.makerToken),
-                takerToken: IERC20TokenV06(params.order.takerToken),
+                makerToken: IERC20Token(params.order.makerToken),
+                takerToken: IERC20Token(params.order.takerToken),
                 makerAmount: params.order.makerAmount,
                 takerAmount: params.order.takerAmount,
                 takerTokenFillAmount: params.takerTokenFillAmount,
@@ -475,10 +466,9 @@ abstract contract NativeOrdersSettlement is
     /// @param settleInfo Information needed to execute the settlement.
     /// @return takerTokenFilledAmount How much taker token was filled.
     /// @return makerTokenFilledAmount How much maker token was filled.
-    function _settleOrder(SettleOrderInfo memory settleInfo)
-        private
-        returns (uint128 takerTokenFilledAmount, uint128 makerTokenFilledAmount)
-    {
+    function _settleOrder(
+        SettleOrderInfo memory settleInfo
+    ) private returns (uint128 takerTokenFilledAmount, uint128 makerTokenFilledAmount) {
         // Clamp the taker token fill amount to the fillable amount.
         takerTokenFilledAmount = LibSafeMathV06.min128(
             settleInfo.takerTokenFillAmount,
@@ -501,6 +491,7 @@ abstract contract NativeOrdersSettlement is
         }
 
         // Update filled state for the order.
+        // solhint-disable-next-line max-line-length
         LibNativeOrdersStorage.getStorage().orderHashToTakerTokenFilledAmount[settleInfo.orderHash] = settleInfo // function if the order is cancelled. // OK to overwrite the whole word because we shouldn't get to this
             .takerTokenFilledAmount
             .safeAdd128(takerTokenFilledAmount);

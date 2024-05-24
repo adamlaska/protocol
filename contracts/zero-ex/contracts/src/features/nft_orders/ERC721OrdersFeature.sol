@@ -1,26 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IEtherTokenV06.sol";
+import "@0x/contracts-erc20/src/IEtherToken.sol";
 import "@0x/contracts-utils/contracts/src/v06/LibSafeMathV06.sol";
 import "../../fixins/FixinERC721Spender.sol";
 import "../../migrations/LibMigrate.sol";
@@ -45,7 +40,7 @@ contract ERC721OrdersFeature is IFeature, IERC721OrdersFeature, FixinERC721Spend
     /// @dev The magic return value indicating the success of a `onERC721Received`.
     bytes4 private constant ERC721_RECEIVED_MAGIC_BYTES = this.onERC721Received.selector;
 
-    constructor(address zeroExAddress, IEtherTokenV06 weth) public NFTOrders(zeroExAddress, weth) {}
+    constructor(address zeroExAddress, IEtherToken weth) public NFTOrders(zeroExAddress, weth) {}
 
     /// @dev Initialize and register this feature.
     ///      Should be delegatecalled by `Migrate.migrate()`.
@@ -474,7 +469,7 @@ contract ERC721OrdersFeature is IFeature, IERC721OrdersFeature, FixinERC721Spend
     ///         indicating that the callback succeeded.
     function onERC721Received(
         address operator,
-        address, /* from */
+        address /* from */,
         uint256 tokenId,
         bytes calldata data
     ) external override returns (bytes4 success) {
@@ -599,11 +594,10 @@ contract ERC721OrdersFeature is IFeature, IERC721OrdersFeature, FixinERC721Spend
     ///      the given ERC721 order. Reverts if not.
     /// @param order The ERC721 order.
     /// @param signature The signature to validate.
-    function validateERC721OrderSignature(LibNFTOrder.ERC721Order memory order, LibSignature.Signature memory signature)
-        public
-        view
-        override
-    {
+    function validateERC721OrderSignature(
+        LibNFTOrder.ERC721Order memory order,
+        LibSignature.Signature memory signature
+    ) public view override {
         bytes32 orderHash = getERC721OrderHash(order);
         _validateOrderSignature(orderHash, signature, order.maker);
     }
@@ -658,7 +652,7 @@ contract ERC721OrdersFeature is IFeature, IERC721OrdersFeature, FixinERC721Spend
     ///        that the order has been filled by.
     function _updateOrderState(
         LibNFTOrder.NFTOrder memory order,
-        bytes32, /* orderHash */
+        bytes32 /* orderHash */,
         uint128 fillAmount
     ) internal override {
         assert(fillAmount == 1);
@@ -682,23 +676,19 @@ contract ERC721OrdersFeature is IFeature, IERC721OrdersFeature, FixinERC721Spend
     ///      an ERC721 asset.
     /// @param order The ERC721 order.
     /// @param erc721TokenId The ID of the ERC721 asset.
-    function validateERC721OrderProperties(LibNFTOrder.ERC721Order memory order, uint256 erc721TokenId)
-        public
-        view
-        override
-    {
+    function validateERC721OrderProperties(
+        LibNFTOrder.ERC721Order memory order,
+        uint256 erc721TokenId
+    ) public view override {
         _validateOrderProperties(order.asNFTOrder(), erc721TokenId);
     }
 
     /// @dev Get the current status of an ERC721 order.
     /// @param order The ERC721 order.
     /// @return status The status of the order.
-    function getERC721OrderStatus(LibNFTOrder.ERC721Order memory order)
-        public
-        view
-        override
-        returns (LibNFTOrder.OrderStatus status)
-    {
+    function getERC721OrderStatus(
+        LibNFTOrder.ERC721Order memory order
+    ) public view override returns (LibNFTOrder.OrderStatus status) {
         // Only buy orders with `erc721TokenId` == 0 can be property
         // orders.
         if (
@@ -741,12 +731,9 @@ contract ERC721OrdersFeature is IFeature, IERC721OrdersFeature, FixinERC721Spend
     /// @dev Get the order info for an NFT order.
     /// @param order The NFT order.
     /// @return orderInfo Info about the order.
-    function _getOrderInfo(LibNFTOrder.NFTOrder memory order)
-        internal
-        view
-        override
-        returns (LibNFTOrder.OrderInfo memory orderInfo)
-    {
+    function _getOrderInfo(
+        LibNFTOrder.NFTOrder memory order
+    ) internal view override returns (LibNFTOrder.OrderInfo memory orderInfo) {
         LibNFTOrder.ERC721Order memory erc721Order = order.asERC721Order();
         orderInfo.orderHash = getERC721OrderHash(erc721Order);
         orderInfo.status = getERC721OrderStatus(erc721Order);
@@ -770,12 +757,10 @@ contract ERC721OrdersFeature is IFeature, IERC721OrdersFeature, FixinERC721Spend
     ///        248 bits.
     /// @return bitVector The order status bit vector for the
     ///         given maker and nonce range.
-    function getERC721OrderStatusBitVector(address maker, uint248 nonceRange)
-        external
-        view
-        override
-        returns (uint256 bitVector)
-    {
+    function getERC721OrderStatusBitVector(
+        address maker,
+        uint248 nonceRange
+    ) external view override returns (uint256 bitVector) {
         LibERC721OrdersStorage.Storage storage stor = LibERC721OrdersStorage.getStorage();
         return stor.orderStatusByMaker[maker][nonceRange];
     }

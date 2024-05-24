@@ -5,6 +5,110 @@ Edit the package's CHANGELOG.json file only.
 
 CHANGELOG
 
+## v0.49.0 - _November 16, 2023_
+
+    * Allowlist Sepolia in AbstractBridgeAdapter
+
+## v0.48.0 - _August 29, 2023_
+
+    * Add VelodromeV2 support on Base
+
+## v0.47.0 - _August 18, 2023_
+
+    * Add MaverickV1 support on Ethereum, BSC, and Base
+
+## v0.46.0 - _August 9, 2023_
+
+    * Add VelodromeV2 support on Optimism
+
+## v0.45.1 - _July 21, 2023_
+
+    * Dependencies updated
+
+## v0.45.0 - _July 19, 2023_
+
+    * Remove Bancor V1 support
+    * Remove Shell and MStable support
+    * Add Base Mainnet and Goerli BridgeAdapters
+    * Add Uniswap V3 support on Avalanche and BSC
+
+## v0.44.0 - _May 10, 2023_
+
+    * Add Trader Joe V2 MixIn to Arbitrum
+
+## v0.43.0 - _May 1, 2023_
+
+    * Add Trader Joe V2.1 Router Support for MixIn
+
+## v0.42.1 - _April 24, 2023_
+
+    * Dependencies updated
+
+## v0.42.0 - _April 20, 2023_
+
+    * Add Trader Joe V2 support on Avalanche
+
+## v0.41.0 - _April 17, 2023_
+
+    * Add Barter support on Ethereum
+
+## v0.40.0 - _April 17, 2023_
+
+    * Add Barter support on Ethereum
+
+## v0.39.2 - _April 10, 2023_
+
+    * Uprgade dependencies
+
+## v0.39.1 - _March 10, 2023_
+
+    * Add KyberElastic mixin for Optimism and BSC
+
+## v0.39.0 - _March 1, 2023_
+
+    * Add KyberElastic mixin for Ethereum, Polygon, Arbitrum, Avalanche
+    * Skip chain id validation in AbstractBridgeAdapter on testnets
+
+## v0.38.6 - _February 1, 2023_
+
+    * Dependencies updated
+
+## v0.38.5 - _January 30, 2023_
+
+    * Dependencies updated
+
+## v0.38.4 - _January 23, 2023_
+
+    * Dependencies updated
+
+## v0.38.3 - _December 12, 2022_
+
+    * Dependencies updated
+
+## v0.38.2 - _November 23, 2022_
+
+    * Dependencies updated
+
+## v0.38.1 - _November 15, 2022_
+
+    * Dependencies updated
+
+## v0.38.0 - _November 5, 2022_
+
+    * Rename Velodrome to Solidly and add SolidlyMixin support on Polygon
+
+## v0.37.10 - _November 2, 2022_
+
+    * Dependencies updated
+
+## v0.37.9 - _October 24, 2022_
+
+    * Dependencies updated
+
+## v0.37.8 - _October 21, 2022_
+
+    * Dependencies updated
+
 ## v0.37.7 - _October 13, 2022_
 
     * Dependencies updated

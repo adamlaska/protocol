@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2020 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
@@ -29,7 +24,6 @@ import "./errors/LibProxyRichErrors.sol";
 /// @dev An extensible proxy contract that serves as a universal entry point for
 ///      interacting with the 0x protocol.
 contract ZeroEx {
-    // solhint-disable separate-by-one-line-in-contract,indent,var-name-mixedcase
     using LibBytesV06 for bytes;
 
     /// @dev Construct this contract and register the `BootstrapFeature` feature.
@@ -42,8 +36,6 @@ contract ZeroEx {
         BootstrapFeature bootstrap = new BootstrapFeature(bootstrapper);
         LibProxyStorage.getStorage().impls[bootstrap.bootstrap.selector] = address(bootstrap);
     }
-
-    // solhint-disable state-visibility
 
     /// @dev Forwards calls to the appropriate implementation contract.
     fallback() external payable {
@@ -62,8 +54,6 @@ contract ZeroEx {
 
     /// @dev Fallback for just receiving ether.
     receive() external payable {}
-
-    // solhint-enable state-visibility
 
     /// @dev Get the implementation contract of a registered function.
     /// @param selector The function selector.

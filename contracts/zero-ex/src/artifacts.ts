@@ -7,6 +7,8 @@ import { ContractArtifact } from 'ethereum-types';
 
 import * as AffiliateFeeTransformer from '../generated-artifacts/AffiliateFeeTransformer.json';
 import * as AvalancheBridgeAdapter from '../generated-artifacts/AvalancheBridgeAdapter.json';
+import * as BaseBridgeAdapter from '../generated-artifacts/BaseBridgeAdapter.json';
+import * as BaseGoerliBridgeAdapter from '../generated-artifacts/BaseGoerliBridgeAdapter.json';
 import * as BatchFillNativeOrdersFeature from '../generated-artifacts/BatchFillNativeOrdersFeature.json';
 import * as BSCBridgeAdapter from '../generated-artifacts/BSCBridgeAdapter.json';
 import * as CeloBridgeAdapter from '../generated-artifacts/CeloBridgeAdapter.json';
@@ -32,6 +34,7 @@ import * as IZeroEx from '../generated-artifacts/IZeroEx.json';
 import * as LiquidityProviderFeature from '../generated-artifacts/LiquidityProviderFeature.json';
 import * as LogMetadataTransformer from '../generated-artifacts/LogMetadataTransformer.json';
 import * as MetaTransactionsFeature from '../generated-artifacts/MetaTransactionsFeature.json';
+import * as MetaTransactionsFeatureV2 from '../generated-artifacts/MetaTransactionsFeatureV2.json';
 import * as MultiplexFeature from '../generated-artifacts/MultiplexFeature.json';
 import * as NativeOrdersFeature from '../generated-artifacts/NativeOrdersFeature.json';
 import * as OptimismBridgeAdapter from '../generated-artifacts/OptimismBridgeAdapter.json';
@@ -78,10 +81,13 @@ export const artifacts = {
     OtcOrdersFeature: OtcOrdersFeature as ContractArtifact,
     IOtcOrdersFeature: IOtcOrdersFeature as ContractArtifact,
     AvalancheBridgeAdapter: AvalancheBridgeAdapter as ContractArtifact,
+    BaseGoerliBridgeAdapter: BaseGoerliBridgeAdapter as ContractArtifact,
+    BaseBridgeAdapter: BaseBridgeAdapter as ContractArtifact,
     BSCBridgeAdapter: BSCBridgeAdapter as ContractArtifact,
     CeloBridgeAdapter: CeloBridgeAdapter as ContractArtifact,
     EthereumBridgeAdapter: EthereumBridgeAdapter as ContractArtifact,
     FantomBridgeAdapter: FantomBridgeAdapter as ContractArtifact,
     OptimismBridgeAdapter: OptimismBridgeAdapter as ContractArtifact,
     PolygonBridgeAdapter: PolygonBridgeAdapter as ContractArtifact,
+    MetaTransactionsFeatureV2: MetaTransactionsFeatureV2 as ContractArtifact,
 };

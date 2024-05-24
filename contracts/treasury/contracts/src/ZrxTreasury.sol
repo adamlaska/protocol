@@ -83,11 +83,8 @@ contract ZrxTreasury is IZrxTreasury {
         );
     }
 
-    // solhint-disable
     /// @dev Allows this contract to receive ether.
     receive() external payable {}
-
-    // solhint-enable
 
     /// @dev Updates the proposal and quorum thresholds to the given
     ///      values. Note that this function is only callable by the
@@ -147,11 +144,7 @@ contract ZrxTreasury is IZrxTreasury {
     /// @param operatedPoolIds The pools operated by `msg.sender`. The
     ///        ZRX currently delegated to those pools will be accounted
     ///        for in the voting power.
-    function castVote(
-        uint256 proposalId,
-        bool support,
-        bytes32[] memory operatedPoolIds
-    ) public override {
+    function castVote(uint256 proposalId, bool support, bytes32[] memory operatedPoolIds) public override {
         return _castVote(msg.sender, proposalId, support, operatedPoolIds);
     }
 
@@ -222,12 +215,10 @@ contract ZrxTreasury is IZrxTreasury {
     ///        ZRX currently delegated to those pools will be accounted
     ///        for in the voting power.
     /// @return votingPower The current voting power of the given account.
-    function getVotingPower(address account, bytes32[] memory operatedPoolIds)
-        public
-        view
-        override
-        returns (uint256 votingPower)
-    {
+    function getVotingPower(
+        address account,
+        bytes32[] memory operatedPoolIds
+    ) public view override returns (uint256 votingPower) {
         uint256 delegatedBalance = stakingProxy
             .getOwnerStakeByStatus(account, IStaking.StakeStatus.DELEGATED)
             .currentEpochBalance;
@@ -310,12 +301,7 @@ contract ZrxTreasury is IZrxTreasury {
     /// @dev Casts a vote for the given proposal. Only callable
     ///      during the voting period for that proposal. See
     ///      `getVotingPower` for how voting power is computed.
-    function _castVote(
-        address voter,
-        uint256 proposalId,
-        bool support,
-        bytes32[] memory operatedPoolIds
-    ) private {
+    function _castVote(address voter, uint256 proposalId, bool support, bytes32[] memory operatedPoolIds) private {
         if (proposalId >= proposalCount()) {
             revert("_castVote/INVALID_PROPOSAL_ID");
         }

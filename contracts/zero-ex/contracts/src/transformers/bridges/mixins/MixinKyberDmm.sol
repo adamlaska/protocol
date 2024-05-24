@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-
 /*
 
   Copyright 2021 ZeroEx Intl.
@@ -21,21 +20,22 @@
 pragma solidity ^0.6.5;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/LibERC20TokenV06.sol";
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/v06/LibERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 import "../IBridgeAdapter.sol";
 
 /*
     KyberDmm Router
 */
 interface IKyberDmmRouter {
-    /// @dev Swaps an exact amount of input tokens for as many output tokens as possible, along the route determined by the path.
-    ///      The first element of path is the input token, the last is the output token, and any intermediate elements represent
-    ///      intermediate pairs to trade through (if, for example, a direct pair does not exist).
+    /// @dev Swaps an exact amount of input tokens for as many output tokens as possible, along the route determined by
+    /// the path. The first element of path is the input token, the last is the output token, and any intermediate
+    /// elements represent intermediate pairs to trade through (if, for example, a direct pair does not exist).
     /// @param amountIn The amount of input tokens to send.
     /// @param amountOutMin The minimum amount of output tokens that must be received for the transaction not to revert.
     /// @param pools An array of pool addresses. pools.length must be >= 1.
-    /// @param path An array of token addresses. path.length must be >= 2. Pools for each consecutive pair of addresses must exist and have liquidity.
+    /// @param path An array of token addresses. path.length must be >= 2. Pools for each consecutive pair of addresses
+    /// must exist and have liquidity.
     /// @param to Recipient of the output tokens.
     /// @param deadline Unix timestamp after which the transaction will revert.
     /// @return amounts The input token amount and all subsequent output token amounts.
@@ -50,10 +50,10 @@ interface IKyberDmmRouter {
 }
 
 contract MixinKyberDmm {
-    using LibERC20TokenV06 for IERC20TokenV06;
+    using LibERC20TokenV06 for IERC20Token;
 
     function _tradeKyberDmm(
-        IERC20TokenV06 buyToken,
+        IERC20Token buyToken,
         uint256 sellAmount,
         bytes memory bridgeData
     ) internal returns (uint256 boughtAmount) {
@@ -69,7 +69,7 @@ contract MixinKyberDmm {
             "MixinKyberDmm/LAST_ELEMENT_OF_PATH_MUST_MATCH_OUTPUT_TOKEN"
         );
         // Grant the KyberDmm router an allowance to sell the first token.
-        IERC20TokenV06(path[0]).approveIfBelow(address(router), sellAmount);
+        IERC20Token(path[0]).approveIfBelow(address(router), sellAmount);
 
         uint256[] memory amounts = IKyberDmmRouter(router).swapExactTokensForTokens(
             // Sell all tokens we hold.

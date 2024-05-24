@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
@@ -60,7 +55,7 @@ abstract contract MultiplexOtc is FixinEIP712 {
                 order,
                 signature,
                 sellAmount.safeDowncastToUint128(),
-                msg.sender,
+                params.payer,
                 params.useSelfBalance,
                 params.recipient
             )
@@ -69,5 +64,35 @@ abstract contract MultiplexOtc is FixinEIP712 {
             state.soldAmount = state.soldAmount.safeAdd(takerTokenFilledAmount);
             state.boughtAmount = state.boughtAmount.safeAdd(makerTokenFilledAmount);
         } catch {}
+    }
+
+    function _multiHopSellOtcOrder(
+        IMultiplexFeature.MultiHopSellState memory state,
+        IMultiplexFeature.MultiHopSellParams memory params,
+        bytes memory wrappedCallData
+    ) internal {
+        // Decode the Otc order, and signature.
+        (LibNativeOrder.OtcOrder memory order, LibSignature.Signature memory signature) = abi.decode(
+            wrappedCallData,
+            (LibNativeOrder.OtcOrder, LibSignature.Signature)
+        );
+        //Make sure that the otc orders maker and taker tokens match the fill sequence in params.tokens[]
+        require(
+            address(order.takerToken) == params.tokens[state.hopIndex] &&
+                address(order.makerToken) == params.tokens[state.hopIndex + 1],
+            "MultiplexOtcOrder::_multiHopSellOtcOrder/INVALID_TOKENS"
+        );
+        // Try filling the Otc order. Bubble up reverts.
+        (uint128 takerTokenFilledAmount, uint128 makerTokenFilledAmount) = IOtcOrdersFeature(address(this))
+            ._fillOtcOrder(
+                order,
+                signature,
+                state.outputTokenAmount.safeDowncastToUint128(),
+                state.from,
+                params.useSelfBalance,
+                state.to
+            );
+        //store the bought amount for the next hop
+        state.outputTokenAmount = makerTokenFilledAmount;
     }
 }

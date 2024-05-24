@@ -159,9 +159,15 @@ export enum BridgeProtocol {
     GMX,
     Platypus,
     BancorV3,
-    Velodrome,
+    Solidly,
     Synthetix,
     WOOFi,
+    AaveV3,
+    KyberElastic,
+    Barter,
+    TraderJoeV2,
+    VelodromeV2,
+    MaverickV1,
 }
 
 /**

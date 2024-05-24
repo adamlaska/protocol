@@ -1,26 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6;
 pragma experimental ABIEncoderV2;
 
-import "@0x/contracts-erc20/contracts/src/v06/IERC20TokenV06.sol";
+import "@0x/contracts-erc20/src/IERC20Token.sol";
 import "../libs/LibNFTOrder.sol";
 import "../libs/LibSignature.sol";
 import "../../vendor/IERC1155Token.sol";
@@ -44,7 +39,7 @@ interface IERC1155OrdersFeature {
         address maker,
         address taker,
         uint256 nonce,
-        IERC20TokenV06 erc20Token,
+        IERC20Token erc20Token,
         uint256 erc20FillAmount,
         IERC1155Token erc1155Token,
         uint256 erc1155TokenId,
@@ -65,7 +60,7 @@ interface IERC1155OrdersFeature {
         address taker,
         uint256 expiry,
         uint256 nonce,
-        IERC20TokenV06 erc20Token,
+        IERC20Token erc20Token,
         uint256 erc20TokenAmount,
         LibNFTOrder.Fee[] fees,
         IERC1155Token erc1155Token,
@@ -199,17 +194,17 @@ interface IERC1155OrdersFeature {
     ///      an ERC1155 asset.
     /// @param order The ERC1155 order.
     /// @param erc1155TokenId The ID of the ERC1155 asset.
-    function validateERC1155OrderProperties(LibNFTOrder.ERC1155Order calldata order, uint256 erc1155TokenId)
-        external
-        view;
+    function validateERC1155OrderProperties(
+        LibNFTOrder.ERC1155Order calldata order,
+        uint256 erc1155TokenId
+    ) external view;
 
     /// @dev Get the order info for an ERC1155 order.
     /// @param order The ERC1155 order.
     /// @return orderInfo Infor about the order.
-    function getERC1155OrderInfo(LibNFTOrder.ERC1155Order calldata order)
-        external
-        view
-        returns (LibNFTOrder.OrderInfo memory orderInfo);
+    function getERC1155OrderInfo(
+        LibNFTOrder.ERC1155Order calldata order
+    ) external view returns (LibNFTOrder.OrderInfo memory orderInfo);
 
     /// @dev Get the EIP-712 hash of an ERC1155 order.
     /// @param order The ERC1155 order.

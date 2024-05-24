@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 /*
-
-  Copyright 2021 ZeroEx Intl.
-
+  Copyright 2023 ZeroEx Intl.
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
 */
 
 pragma solidity ^0.6.5;
@@ -75,10 +70,10 @@ interface IOtcOrdersFeature {
     /// @param makerSignature The order signature from the maker.
     /// @return takerTokenFilledAmount How much taker token was filled.
     /// @return makerTokenFilledAmount How much maker token was filled.
-    function fillOtcOrderWithEth(LibNativeOrder.OtcOrder calldata order, LibSignature.Signature calldata makerSignature)
-        external
-        payable
-        returns (uint128 takerTokenFilledAmount, uint128 makerTokenFilledAmount);
+    function fillOtcOrderWithEth(
+        LibNativeOrder.OtcOrder calldata order,
+        LibSignature.Signature calldata makerSignature
+    ) external payable returns (uint128 takerTokenFilledAmount, uint128 makerTokenFilledAmount);
 
     /// @dev Fully fill an OTC order. "Meta-transaction" variant,
     ///      requires order to be signed by both maker and taker.
@@ -144,10 +139,9 @@ interface IOtcOrdersFeature {
     /// @dev Get the order info for an OTC order.
     /// @param order The OTC order.
     /// @return orderInfo Info about the order.
-    function getOtcOrderInfo(LibNativeOrder.OtcOrder calldata order)
-        external
-        view
-        returns (LibNativeOrder.OtcOrderInfo memory orderInfo);
+    function getOtcOrderInfo(
+        LibNativeOrder.OtcOrder calldata order
+    ) external view returns (LibNativeOrder.OtcOrderInfo memory orderInfo);
 
     /// @dev Get the canonical hash of an OTC order.
     /// @param order The OTC order.
