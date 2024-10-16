@@ -83,7 +83,7 @@
     },
     "dependencies": {
         "@0x/base-contract": "^7.0.0",
-        "ethers": "~4.0.4"
+        "ethers": "~5.0.0"
     },
     "publishConfig": {
         "access": "public"
