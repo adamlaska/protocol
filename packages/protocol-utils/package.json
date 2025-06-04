@@ -68,7 +68,7 @@
         "@0x/contract-addresses": "^6.25.0",
         "@0x/contract-wrappers": "^13.22.6",
         "@0x/json-schemas": "^6.4.4",
-        "@0x/subproviders": "^7.0.0",
+        "@0x/subproviders": "^8.0.1",
         "@0x/utils": "^7.0.0",
         "@0x/web3-wrapper": "^8.0.0",
         "@typescript-eslint/parser": "^5.38.0",
