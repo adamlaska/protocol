@@ -71,8 +71,8 @@
         "@typescript-eslint/parser": "^5.38.0",
         "chai": "^4.0.1",
         "ethereumjs-util": "^7.0.10",
-        "ethers": "~4.0.4",
-        "lodash": "^4.17.11"
+        "ethers": "~5.0.0",
+        "lodash": "^4.17.23"
     },
     "publishConfig": {
         "access": "public"
